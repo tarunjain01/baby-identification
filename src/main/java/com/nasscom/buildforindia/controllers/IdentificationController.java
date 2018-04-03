@@ -35,7 +35,7 @@ public class IdentificationController {
 	private IdentificationService identificationService;
 	
 	@PostMapping("/api/upload/checkSimilarity")
-	public boolean isSimilarImageExist(@RequestParam String footPrint) {
+	public boolean isSimilarImageExist(@RequestParam MultipartFile footPrint) {
 		return false;
 	}
 	
