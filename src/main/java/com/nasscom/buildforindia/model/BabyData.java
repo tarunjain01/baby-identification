@@ -16,7 +16,7 @@ public class BabyData {
 	@GeneratedValue
 	private Long id;
 	
-	private String lefImageFile;
+	private String leftImageFile;
 	
 	private String rightImageFile;
 	
