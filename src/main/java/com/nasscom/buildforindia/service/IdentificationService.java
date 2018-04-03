@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.machinezoo.sourceafis.FingerprintTemplate;
 import com.nasscom.buildforindia.model.BabyData;
 import com.nasscom.buildforindia.repositories.IdentificationRepository;
 
@@ -46,11 +47,21 @@ public class IdentificationService {
 			if (file.isEmpty())
 				continue;
 			
-			byte[] bytes = file.getBytes();
+			byte[] babyFingerprint = file.getBytes();
+			
+			FingerprintTemplate babyFingerprintTemplate = new FingerprintTemplate()
+		    	    .dpi(500)
+		    	    .create(babyFingerprint);
+			
 			Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename()+babyData.getId());
-			Files.write(path, bytes);
+			Files.write(path, babyFingerprint);
+			
 			babyData.setLefImageFile(file.getOriginalFilename()+babyData.getId());
 			babyData.setRightImageFile(file.getOriginalFilename()+babyData.getId());
+			
+			babyData.setLeftTemplate(babyFingerprintTemplate.serialize());
+			babyData.setRightTemplate(babyFingerprintTemplate.serialize());
+			
 		}
 		babyData.setMotherAadhar(motherAadhar);
 		babyData.setFatherAadhar(fatherAadhar);
@@ -66,13 +77,20 @@ public class IdentificationService {
 		return babyList;
 	}
 
-	public BabyData retrieveSimilarImageData(MultipartFile footPrint) {
+	public BabyData retrieveSimilarImageData(MultipartFile footPrint) throws IOException {
 		logger.debug("Executing retrieve call to get similar image data");
 		if (footPrint != null && !footPrint.isEmpty()) {
 			// read multipart data and convert it into bytes
 			// loop through all the files in uploaded folder and check similarity
 			// find babyData based on the filename which is a match
 			// return that babyData object or else return null
+			byte[] babyFingerprint = footPrint.getBytes();
+			
+			FingerprintTemplate babyFingerprintTemplate = new FingerprintTemplate()
+		    	    .dpi(500)
+		    	    .create(babyFingerprint);
+			
+			// todo get iterable of babies missing and match their template with this one
 		}
 		return null;
 	}

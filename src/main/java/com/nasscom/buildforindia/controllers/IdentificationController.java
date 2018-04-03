@@ -68,5 +68,23 @@ public class IdentificationController {
 	public List<BabyData> retrieveImage() {
 		return identificationService.retrieveAll();
 	}
+	
+	@PostMapping("/api/upload/missing")
+	public ResponseEntity<?> reportMissing(
+			@RequestParam String motherAadhar, 
+			@RequestParam String fatherAadhar,
+			@RequestParam String babyId) {
+	
+		 return new ResponseEntity<String>("Successfully Uploaded", HttpStatus.OK);
+	}
+	
+	@PostMapping("/api/update/files")
+	public ResponseEntity<?> updateInfo(
+			@RequestParam String babyId,
+			@RequestParam("files") MultipartFile[] uploadedFiles) {
+	
+		 return new ResponseEntity<String>("Successfully Uploaded", HttpStatus.OK);
+	}
+	
 
 }

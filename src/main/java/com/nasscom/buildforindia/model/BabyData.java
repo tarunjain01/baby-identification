@@ -28,6 +28,26 @@ public class BabyData {
 	
 	private boolean isMissing;
 	
+	private String leftTemplate;
+	
+	private String rightTemplate;
+	
+	public String getLeftTemplate() {
+		return leftTemplate;
+	}
+
+	public void setLeftTemplate(String leftTemplate) {
+		this.leftTemplate = leftTemplate;
+	}
+
+	public String getRightTemplate() {
+		return rightTemplate;
+	}
+
+	public void setRightTemplate(String rightTemplate) {
+		this.rightTemplate = rightTemplate;
+	}
+
 	public Long getId() {
 		return id;
 	}
