@@ -47,10 +47,10 @@ public class IdentificationService {
 				continue;
 			
 			byte[] bytes = file.getBytes();
-			Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+			Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename()+babyData.getId());
 			Files.write(path, bytes);
-			babyData.setLefImageFile(file.getOriginalFilename());
-			babyData.setRightImageFile(file.getOriginalFilename());
+			babyData.setLefImageFile(file.getOriginalFilename()+babyData.getId());
+			babyData.setRightImageFile(file.getOriginalFilename()+babyData.getId());
 		}
 		babyData.setMotherAadhar(motherAadhar);
 		babyData.setFatherAadhar(fatherAadhar);
@@ -64,6 +64,17 @@ public class IdentificationService {
 		Iterable<BabyData> iterable = identificationRepository.findAll();
 		iterable.forEach(babyList::add);
 		return babyList;
+	}
+
+	public BabyData retrieveSimilarImageData(MultipartFile footPrint) {
+		logger.debug("Executing retrieve call to get similar image data");
+		if (footPrint != null && !footPrint.isEmpty()) {
+			// read multipart data and convert it into bytes
+			// loop through all the files in uploaded folder and check similarity
+			// find babyData based on the filename which is a match
+			// return that babyData object or else return null
+		}
+		return null;
 	}
 
 }

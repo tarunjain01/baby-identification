@@ -25,8 +25,16 @@ public class BabyData {
 	private String fatherAadhar;
 	
 	private String birthPlace;
-
 	
+	private boolean isMissing;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getLefImageFile() {
 		return lefImageFile;
@@ -66,6 +74,14 @@ public class BabyData {
 
 	public void setBirthPlace(String birthPlace) {
 		this.birthPlace = birthPlace;
+	}
+
+	public boolean isMissing() {
+		return isMissing;
+	}
+
+	public void setMissing(boolean isMissing) {
+		this.isMissing = isMissing;
 	}
 	
 }
