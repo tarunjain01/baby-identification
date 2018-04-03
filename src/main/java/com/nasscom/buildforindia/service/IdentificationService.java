@@ -1,0 +1,69 @@
+/**
+ * 
+ */
+package com.nasscom.buildforindia.service;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.nasscom.buildforindia.model.BabyData;
+import com.nasscom.buildforindia.repositories.IdentificationRepository;
+
+/**
+ * @author tarun_000
+ *
+ */
+@Service
+public class IdentificationService {
+	
+	private final Logger logger = LoggerFactory.getLogger(IdentificationService.class);
+	
+	private final String UPLOADED_FOLDER;
+	
+	@Autowired
+	private IdentificationRepository identificationRepository;
+	
+	@Autowired
+	public IdentificationService(@Value("${uploaded.folder") String uploadedFolder) {
+		this.UPLOADED_FOLDER = uploadedFolder;
+	}
+	
+	public BabyData saveData(String motherAadhar, String fatherAadhar, String birthPlace, MultipartFile[] uploadedFiles) throws IOException {
+		logger.debug("Executing save method - saving image files");
+		BabyData babyData = new BabyData();
+		for (MultipartFile file : uploadedFiles) {
+			if (file.isEmpty())
+				continue;
+			
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+			Files.write(path, bytes);
+			babyData.setLefImageFile(file.getOriginalFilename());
+			babyData.setRightImageFile(file.getOriginalFilename());
+		}
+		babyData.setMotherAadhar(motherAadhar);
+		babyData.setFatherAadhar(fatherAadhar);
+		babyData.setBirthPlace(birthPlace);
+		
+		return identificationRepository.save(babyData);
+	}
+
+	public List<BabyData> retrieveAll() {
+		List<BabyData> babyList = new ArrayList<>();
+		Iterable<BabyData> iterable = identificationRepository.findAll();
+		iterable.forEach(babyList::add);
+		return babyList;
+	}
+
+}
