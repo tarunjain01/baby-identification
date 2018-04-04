@@ -93,8 +93,6 @@ public class IdentificationService {
 			FingerprintTemplate babyFingerprintTemplate = new FingerprintTemplate()
 		    	    .dpi(500)
 		    	    .create(babyFingerprint);
-			double maxScore = 0;
-			int i = 10;
 			List<BabyData> babyList = identificationRepository.findAllMissingBabies(true);
 			babyList.forEach(baby -> {
 				FingerprintTemplate babytemplate = new FingerprintTemplate()
