@@ -93,7 +93,7 @@ public class IdentificationService {
 			FingerprintTemplate babyFingerprintTemplate = new FingerprintTemplate()
 		    	    .dpi(500)
 		    	    .create(babyFingerprint);
-			List<BabyData> babyList = identificationRepository.findAllMissingBabies(true);
+			List<BabyData> babyList = identificationRepository.findByIsMissing(true);
 			babyList.forEach(baby -> {
 				FingerprintTemplate babytemplate = new FingerprintTemplate()
 					    .deserialize(baby.getLeftTemplate());
