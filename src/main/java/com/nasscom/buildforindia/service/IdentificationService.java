@@ -70,7 +70,7 @@ public class IdentificationService {
 			Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename()+"-"+babyData.getUuid());
 			Files.write(path, babyFingerprint);
 			
-			babyData.setLefImageFile(file.getOriginalFilename()+"-"+babyData.getUuid());
+			babyData.setLeftImageFile(file.getOriginalFilename()+"-"+babyData.getUuid());
 			babyData.setRightImageFile(file.getOriginalFilename()+"-"+babyData.getUuid());
 			
 			//babyData.setLeftTemplate(new javax.sql.rowset.serial.SerialClob(babyFingerprintTemplate.serialize().toCharArray()));
@@ -109,7 +109,7 @@ public class IdentificationService {
 			List<BabyData> babyList = identificationRepository.findByIsMissing(true);
 			babyList.forEach(baby -> {
 				FingerprintTemplate babytemplate = null;
-				Path fileLocation = Paths.get(baby.getLefImageFile());
+				Path fileLocation = Paths.get(baby.getLeftImageFile());
 				byte[] babyBinary = null;
 				try {
 					babyBinary = Files.readAllBytes(fileLocation);

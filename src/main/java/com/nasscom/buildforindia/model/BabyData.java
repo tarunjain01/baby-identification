@@ -84,14 +84,6 @@ public class BabyData {
 		this.id = id;
 	}
 
-	public String getLefImageFile() {
-		return leftImageFile;
-	}
-
-	public void setLefImageFile(String lefImageFile) {
-		this.leftImageFile = lefImageFile;
-	}
-
 	public String getRightImageFile() {
 		return rightImageFile;
 	}
