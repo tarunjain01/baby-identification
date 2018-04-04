@@ -73,8 +73,8 @@ public class IdentificationService {
 			babyData.setLeftImageFile(file.getOriginalFilename()+"-"+babyData.getUuid());
 			babyData.setRightImageFile(file.getOriginalFilename()+"-"+babyData.getUuid());
 			
-			//babyData.setLeftTemplate(new javax.sql.rowset.serial.SerialClob(babyFingerprintTemplate.serialize().toCharArray()));
-			//babyData.setRightTemplate(new javax.sql.rowset.serial.SerialClob(babyFingerprintTemplate.serialize().toCharArray()));
+			babyData.setLeftTemplate(babyFingerprintTemplate.serialize());
+			babyData.setRightTemplate(babyFingerprintTemplate.serialize());
 			
 		}
 		babyData.setMotherAadhar(motherAadhar);
@@ -108,7 +108,7 @@ public class IdentificationService {
 		    	    .create(babyFingerprint);
 			List<BabyData> babyList = identificationRepository.findByIsMissing(true);
 			babyList.forEach(baby -> {
-				FingerprintTemplate babytemplate = null;
+				/*FingerprintTemplate babytemplate = null;
 				Path fileLocation = Paths.get(baby.getLeftImageFile());
 				byte[] babyBinary = null;
 				try {
@@ -117,9 +117,9 @@ public class IdentificationService {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				babytemplate = new FingerprintTemplate().dpi(500).create(babyBinary);
-				/*babytemplate = new FingerprintTemplate()
-					    .deserialize(baby.getLeftTemplate().getSubString(1, (int)baby.getLeftTemplate().length()));*/
+				babytemplate = new FingerprintTemplate().dpi(500).create(babyBinary);*/
+				FingerprintTemplate babytemplate = new FingerprintTemplate()
+					    .deserialize(baby.getLeftTemplate());
 				double score = new FingerprintMatcher()
 		    		    .index(babytemplate)
 		    		    .match(babyFingerprintTemplate);

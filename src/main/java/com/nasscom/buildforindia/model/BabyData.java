@@ -3,12 +3,9 @@
  */
 package com.nasscom.buildforindia.model;
 
-import java.sql.Clob;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.Lob;
 
 /**
  * @author tarun_000
@@ -34,13 +31,11 @@ public class BabyData {
 	
 	private boolean isMissing;
 	
-	@Column(columnDefinition="clob")
-	@Lob
-	private Clob leftTemplate;
+	@Column(length = 32672)
+	private String leftTemplate;
 	
-	@Column(columnDefinition="clob")
-	@Lob
-	private Clob rightTemplate;
+	@Column(length = 32672)
+	private String rightTemplate;
 	
 	private double score;
 	
@@ -60,19 +55,19 @@ public class BabyData {
 		this.score = score;
 	}
 
-	public Clob getLeftTemplate() {
+	public String getLeftTemplate() {
 		return leftTemplate;
 	}
 
-	public void setLeftTemplate(Clob leftTemplate) {
+	public void setLeftTemplate(String leftTemplate) {
 		this.leftTemplate = leftTemplate;
 	}
 
-	public Clob getRightTemplate() {
+	public String getRightTemplate() {
 		return rightTemplate;
 	}
 
-	public void setRightTemplate(Clob rightTemplate) {
+	public void setRightTemplate(String rightTemplate) {
 		this.rightTemplate = rightTemplate;
 	}
 
