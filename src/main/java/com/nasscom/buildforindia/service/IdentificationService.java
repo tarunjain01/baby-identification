@@ -3,12 +3,16 @@
  */
 package com.nasscom.buildforindia.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.rowset.serial.SerialException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +45,7 @@ public class IdentificationService {
 		this.UPLOADED_FOLDER = uploadedFolder;
 	}
 	
-	public BabyData saveData(String motherAadhar, String fatherAadhar, String birthPlace, MultipartFile[] uploadedFiles) throws IOException {
+	public BabyData saveData(String motherAadhar, String fatherAadhar, String birthPlace, MultipartFile[] uploadedFiles) throws IOException, SerialException, SQLException {
 		logger.debug("Executing save method - saving image files");
 		BabyData babyData = new BabyData();
 		for (MultipartFile file : uploadedFiles) {
@@ -69,8 +73,8 @@ public class IdentificationService {
 			babyData.setLefImageFile(file.getOriginalFilename()+"-"+babyData.getUuid());
 			babyData.setRightImageFile(file.getOriginalFilename()+"-"+babyData.getUuid());
 			
-			//babyData.setLeftTemplate(babyFingerprintTemplate.serialize());
-			//babyData.setRightTemplate(babyFingerprintTemplate.serialize());
+			//babyData.setLeftTemplate(new javax.sql.rowset.serial.SerialClob(babyFingerprintTemplate.serialize().toCharArray()));
+			//babyData.setRightTemplate(new javax.sql.rowset.serial.SerialClob(babyFingerprintTemplate.serialize().toCharArray()));
 			
 		}
 		babyData.setMotherAadhar(motherAadhar);
@@ -104,8 +108,18 @@ public class IdentificationService {
 		    	    .create(babyFingerprint);
 			List<BabyData> babyList = identificationRepository.findByIsMissing(true);
 			babyList.forEach(baby -> {
-				FingerprintTemplate babytemplate = new FingerprintTemplate()
-					    .deserialize(baby.getLeftTemplate());
+				FingerprintTemplate babytemplate = null;
+				Path fileLocation = Paths.get(baby.getLefImageFile());
+				byte[] babyBinary = null;
+				try {
+					babyBinary = Files.readAllBytes(fileLocation);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				babytemplate = new FingerprintTemplate().dpi(500).create(babyBinary);
+				/*babytemplate = new FingerprintTemplate()
+					    .deserialize(baby.getLeftTemplate().getSubString(1, (int)baby.getLeftTemplate().length()));*/
 				double score = new FingerprintMatcher()
 		    		    .index(babytemplate)
 		    		    .match(babyFingerprintTemplate);
