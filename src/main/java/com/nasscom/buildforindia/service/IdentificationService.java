@@ -90,7 +90,7 @@ public class IdentificationService {
 			FingerprintTemplate babyFingerprintTemplate = new FingerprintTemplate()
 		    	    .dpi(500)
 		    	    .create(babyFingerprint);
-			List<BabyData> babyList = identificationRepository.findAllMissingBabies(true);
+			/*List<BabyData> babyList = identificationRepository.findAllMissingBabies(true);
 			babyList.forEach(baby -> {
 				FingerprintTemplate babytemplate = new FingerprintTemplate()
 					    .deserialize(baby.getLeftTemplate());
@@ -101,7 +101,7 @@ public class IdentificationService {
 					
 				}
 				
-			});
+			});*/
 			// todo get iterable of babies missing and match their template with this one
 		}
 		return null;

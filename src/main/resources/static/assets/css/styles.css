@@ -1,0 +1,168 @@
+*{
+    margin:0; padding: 0;
+    box-sizing: border-box;
+    font-family: calibri;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #ccc;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: #ccc;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: #ccc;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: #ccc;
+  }
+
+html,body{
+    background: #eee;
+}
+
+.bg-fullscreen{
+    position: absolute;
+    height: 100%; width: 100%;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('../images/bg_with_logo.jpg');
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.hidden{
+    display: none !important;
+}
+
+.form.login-form, .form.signup-form{
+    position: absolute;
+    right: 15%;
+    top: 40%;
+}
+
+.form input {
+    display: block;
+    font-size: 18px;
+    padding: 20px 10px;
+    margin: 0; 
+    float: none;
+    width: 400px;
+    outline: none;
+    border: none;
+}
+
+.form input[type="text"],.form input[type="password"]{
+    background: #fff;
+    color: rgb(36, 32, 32);
+    border: 2px solid #fff;
+}
+
+.form input[type="button"]{
+    cursor: pointer;
+    background: #3a1c14;
+    color: #fff;
+    padding: 15px;
+}
+
+.form input[type="button"].success{
+    background: #208628;
+}
+
+.form input[type="button"].error{
+    background: #c44;
+}
+
+.form input[type="button"].warning{
+    background: #ea9412;
+}
+
+.form input[type="file"]{
+    opacity: 0;
+    height: 0; width: 0;
+    padding: 0;
+}
+
+.form input[type="file"] + label{
+    width: 400px;
+    padding: 20px 10px;
+    display: inline-block;
+    text-align: center;
+    background: #cecece;
+    color: #6f6f6f;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.form input[type="file"] + label.files-added{
+    background: #3cb96e;
+    color: #eee;
+}
+
+.form .helper{
+    color: #555;
+    font-size: 15px;
+    text-align: right;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.form .helper:hover{
+    text-decoration: underline;
+}
+
+@keyframes fadein {
+    from {top: 45%; opacity: 0}
+    to {top: 40%; opacity: 1}
+}
+
+.delayed-fadein{
+    animation: fadein 500ms linear forwards;
+}
+
+.navbar{
+    background: #3a1c14;
+    color: #fff;
+    font-size: 25px;
+}
+
+.navbar .brand{
+    padding: 15px;
+    float: left;
+}
+
+.navbar .logout{
+    padding: 15px;
+    float: right;
+    cursor: pointer;
+    background: #39cfff;
+    color: #3a1c14;
+}
+
+.navbar:after,.navbar:before{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+[router-outlet]{
+    padding: 50px 15px;
+    display: flex;
+}
+
+.btn_holder{
+    padding: 15px;
+}
+
+.card{
+    background: #fff;
+    padding: 20px;
+    display: inline-block;
+    box-shadow: 1px 0 3px 1px #ddd;
+    border-radius: 2px;
+    margin: 0 5px 0 0 ;
+    cursor: pointer;
+}
+
+.card.active{
+    border-bottom: 2px solid #39c;
+}
