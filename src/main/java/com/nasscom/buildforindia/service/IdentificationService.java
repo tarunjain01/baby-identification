@@ -78,7 +78,10 @@ public class IdentificationService {
 		return babyList;
 	}
 
-	public BabyData retrieveSimilarImageData(MultipartFile footPrint) throws IOException {
+	public BabyData[] retrieveSimilarImageData(MultipartFile footPrint) throws IOException {
+		BabyData identifiedBaby = null;
+		MinHeap  closelyResembelingBabies = new MinHeap(10);
+		
 		logger.debug("Executing retrieve call to get similar image data");
 		if (footPrint != null && !footPrint.isEmpty()) {
 			// read multipart data and convert it into bytes
@@ -90,21 +93,36 @@ public class IdentificationService {
 			FingerprintTemplate babyFingerprintTemplate = new FingerprintTemplate()
 		    	    .dpi(500)
 		    	    .create(babyFingerprint);
-			/*List<BabyData> babyList = identificationRepository.findAllMissingBabies(true);
+			double maxScore = 0;
+			int i = 10;
+			List<BabyData> babyList = identificationRepository.findAllMissingBabies(true);
 			babyList.forEach(baby -> {
 				FingerprintTemplate babytemplate = new FingerprintTemplate()
 					    .deserialize(baby.getLeftTemplate());
 				double score = new FingerprintMatcher()
 		    		    .index(babytemplate)
 		    		    .match(babyFingerprintTemplate);
-				if( score > 40){
-					
+				baby.setScore(score);
+				if(closelyResembelingBabies.getSize() < 10){
+					closelyResembelingBabies.insert(baby);
+					if(closelyResembelingBabies.getSize() == 9){
+						closelyResembelingBabies.minHeap();
+					}
+				}else{
+					BabyData heapFrontBaby = closelyResembelingBabies.getHeap()[closelyResembelingBabies.getFront()];
+					if(heapFrontBaby.getScore() < baby.getScore()){
+						closelyResembelingBabies.remove();
+						closelyResembelingBabies.insert(baby);
+						closelyResembelingBabies.minHeap();
+					}
 				}
+					
 				
-			});*/
+				
+			});
 			// todo get iterable of babies missing and match their template with this one
 		}
-		return null;
+		return closelyResembelingBabies.getHeap();
 	}
 
 }

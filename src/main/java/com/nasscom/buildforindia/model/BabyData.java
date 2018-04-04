@@ -33,6 +33,24 @@ public class BabyData {
 	
 	private String rightTemplate;
 	
+	private double score;
+	
+	public String getLeftImageFile() {
+		return leftImageFile;
+	}
+
+	public void setLeftImageFile(String leftImageFile) {
+		this.leftImageFile = leftImageFile;
+	}
+
+	public double getScore() {
+		return score;
+	}
+
+	public void setScore(double score) {
+		this.score = score;
+	}
+
 	public String getLeftTemplate() {
 		return leftTemplate;
 	}
