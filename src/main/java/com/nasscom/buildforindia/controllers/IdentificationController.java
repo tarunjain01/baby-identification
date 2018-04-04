@@ -36,7 +36,7 @@ public class IdentificationController {
 	private IdentificationService identificationService;
 	
 	@PostMapping("/api/upload/checkSimilarity")
-	public BabyData getSimilarImageIfExist(@RequestParam MultipartFile footPrint) throws IOException {
+	public BabyData[] getSimilarImageIfExist(@RequestParam MultipartFile footPrint) throws IOException {
 		return identificationService.retrieveSimilarImageData(footPrint);
 	}
 	
@@ -68,6 +68,11 @@ public class IdentificationController {
 	@GetMapping("/api/retrieve/list")
 	public List<BabyData> retrieveImage() {
 		return identificationService.retrieveAll();
+	}
+	
+	@GetMapping("/api/retrieve/match")
+	public BabyData[] retrieveMatch( MultipartFile uploadedFile ) throws IOException {
+		return identificationService.retrieveSimilarImageData(uploadedFile);
 	}
 	
 	@PostMapping("/api/upload/missing")
