@@ -60,8 +60,8 @@ public class IdentificationService {
 			babyData.setLefImageFile(file.getOriginalFilename()+babyData.getId());
 			babyData.setRightImageFile(file.getOriginalFilename()+babyData.getId());
 			
-			babyData.setLeftTemplate(babyFingerprintTemplate.serialize());
-			babyData.setRightTemplate(babyFingerprintTemplate.serialize());
+			//babyData.setLeftTemplate(babyFingerprintTemplate.serialize());
+			//babyData.setRightTemplate(babyFingerprintTemplate.serialize());
 			
 		}
 		babyData.setMotherAadhar(motherAadhar);

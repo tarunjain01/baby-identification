@@ -54,15 +54,15 @@ public class IdentificationController {
         if (StringUtils.isEmpty(uploadedFileName)) {
             return new ResponseEntity<String>("please select a file!", HttpStatus.OK);
         }
-        
+        BabyData babyData = new BabyData();
         try {
-        	BabyData babyData = identificationService.saveData(motherAadhar, fatherAadhar, birthPlace, uploadedFiles);
+        	babyData = identificationService.saveData(motherAadhar, fatherAadhar, birthPlace, uploadedFiles);
 		
         } catch (Exception e) {
         	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
-        return new ResponseEntity<String>("Successfully Uploaded", HttpStatus.OK);
+        return new ResponseEntity<BabyData>(babyData, HttpStatus.OK);
 	}
 	
 	@GetMapping("/api/retrieve/list")

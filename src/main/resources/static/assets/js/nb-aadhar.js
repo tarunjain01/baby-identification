@@ -3,35 +3,16 @@ var $$ = function(selector) {
 }, $$byId = function(idSelector){
     return document.getElementById(idSelector);
 }
-function hasClass(el, className) {
-  if (el.classList)
-    return el.classList.contains(className)
-  else
-    return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
-}
-function addClass(el, className) {
-  if (el.classList)
-    el.classList.add(className)
-  else if (!hasClass(el, className)) el.className += " " + className
-}
-function removeClass(el, className) {
-  if (el.classList)
-    el.classList.remove(className)
-  else if (hasClass(el, className)) {
-    var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
-    el.className=el.className.replace(reg, ' ')
-  }
-}
 
 var toggleform = function(currentForm){
     switch(currentForm){
         case 'login':
-            addClass($$byId("login-form"),'hidden');
-            removeClass($$byId("signup-form"),'hidden');
+        	$("#login-form").addClass('hidden');
+        	$("#signup-form").removeClass('hidden');
             break;
         case 'signup':
-            removeClass($$byId("login-form"),'hidden');
-            addClass($$byId("signup-form"),'hidden');
+        	$("#login-form").removeClass('hidden');
+        	$("#signup-form").addClass('hidden');
             break;
     }
 }
@@ -80,7 +61,7 @@ var submitNewRegistry = function(){
     var fd = new FormData($("#newRegistryForm")[0]);
 
     $.ajax({
-        url: 'http://localhost:9090/api/upload/files',
+        url: '/BabyIdentification/api/upload/files',
         data: fd,
         processData: false,
         contentType: false,
