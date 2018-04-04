@@ -68,7 +68,7 @@ var submitNewRegistry = function(){
         type: 'POST',
         success: function(data){
             //alert(data);
-            $('#nb_aadharId')[0].innerHTML = data.id;
+            $('#nb_aadharId')[0].innerHTML = data.uuid;
         }
     });
 }

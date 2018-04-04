@@ -37,7 +37,7 @@ public class IdentificationService {
 	private IdentificationRepository identificationRepository;
 	
 	@Autowired
-	public IdentificationService(@Value("${uploaded.folder") String uploadedFolder) {
+	public IdentificationService(@Value("${uploaded.folder}") String uploadedFolder) {
 		this.UPLOADED_FOLDER = uploadedFolder;
 	}
 	
@@ -54,11 +54,20 @@ public class IdentificationService {
 		    	    .dpi(500)
 		    	    .create(babyFingerprint);
 			
-			Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename()+babyData.getId());
+			synchronized(this) {
+				boolean isUnique = false;
+				while (!isUnique) {
+					String uuid = java.util.UUID.randomUUID().toString();
+					BabyData nonUniqueBaby = identificationRepository.findOneByUuid(uuid);
+					isUnique = nonUniqueBaby == null ? true : false;
+					babyData.setUuid(uuid);
+				}
+			}
+			Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename()+"-"+babyData.getUuid());
 			Files.write(path, babyFingerprint);
 			
-			babyData.setLefImageFile(file.getOriginalFilename()+babyData.getId());
-			babyData.setRightImageFile(file.getOriginalFilename()+babyData.getId());
+			babyData.setLefImageFile(file.getOriginalFilename()+"-"+babyData.getUuid());
+			babyData.setRightImageFile(file.getOriginalFilename()+"-"+babyData.getUuid());
 			
 			//babyData.setLeftTemplate(babyFingerprintTemplate.serialize());
 			//babyData.setRightTemplate(babyFingerprintTemplate.serialize());

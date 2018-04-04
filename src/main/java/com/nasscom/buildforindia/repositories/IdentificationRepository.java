@@ -20,4 +20,6 @@ public interface IdentificationRepository extends CrudRepository<BabyData, Integ
 	public List<BabyData> findByLeftImageFileOrRightImageFile(String leftFileName, String rightFileName);
 	
 	public List<BabyData> findByIsMissing(boolean isMissing);
+	
+	public BabyData findOneByUuid(String Uuid);
 }

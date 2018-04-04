@@ -17,6 +17,8 @@ public class BabyData {
 	@GeneratedValue
 	private Long id;
 	
+	private String uuid;
+	
 	private String leftImageFile;
 	
 	private String rightImageFile;
@@ -121,6 +123,14 @@ public class BabyData {
 
 	public void setMissing(boolean isMissing) {
 		this.isMissing = isMissing;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	
 }
