@@ -18,4 +18,6 @@ import com.nasscom.buildforindia.model.BabyData;
 public interface IdentificationRepository extends CrudRepository<BabyData, Integer>{
 	
 	public List<BabyData> findByLeftImageFileOrRightImageFile(String fileName);
+	
+	public List<BabyData> findAllMissingBabies(boolean isMissing);
 }

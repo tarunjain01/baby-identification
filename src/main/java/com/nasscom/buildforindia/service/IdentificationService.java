@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.machinezoo.sourceafis.FingerprintMatcher;
 import com.machinezoo.sourceafis.FingerprintTemplate;
 import com.nasscom.buildforindia.model.BabyData;
 import com.nasscom.buildforindia.repositories.IdentificationRepository;
@@ -85,11 +86,22 @@ public class IdentificationService {
 			// find babyData based on the filename which is a match
 			// return that babyData object or else return null
 			byte[] babyFingerprint = footPrint.getBytes();
-			
+			//BabyData baby = new BabyData();
 			FingerprintTemplate babyFingerprintTemplate = new FingerprintTemplate()
 		    	    .dpi(500)
 		    	    .create(babyFingerprint);
-			
+			List<BabyData> babyList = identificationRepository.findAllMissingBabies(true);
+			babyList.forEach(baby -> {
+				FingerprintTemplate babytemplate = new FingerprintTemplate()
+					    .deserialize(baby.getLeftTemplate());
+				double score = new FingerprintMatcher()
+		    		    .index(babytemplate)
+		    		    .match(babyFingerprintTemplate);
+				if( score > 40){
+					
+				}
+				
+			});
 			// todo get iterable of babies missing and match their template with this one
 		}
 		return null;

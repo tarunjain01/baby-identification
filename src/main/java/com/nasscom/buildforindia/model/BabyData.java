@@ -57,11 +57,11 @@ public class BabyData {
 	}
 
 	public String getLefImageFile() {
-		return lefImageFile;
+		return leftImageFile;
 	}
 
 	public void setLefImageFile(String lefImageFile) {
-		this.lefImageFile = lefImageFile;
+		this.leftImageFile = lefImageFile;
 	}
 
 	public String getRightImageFile() {

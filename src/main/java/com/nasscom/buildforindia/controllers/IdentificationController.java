@@ -3,6 +3,7 @@
  */
 package com.nasscom.buildforindia.controllers;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +36,7 @@ public class IdentificationController {
 	private IdentificationService identificationService;
 	
 	@PostMapping("/api/upload/checkSimilarity")
-	public BabyData getSimilarImageIfExist(@RequestParam MultipartFile footPrint) {
+	public BabyData getSimilarImageIfExist(@RequestParam MultipartFile footPrint) throws IOException {
 		return identificationService.retrieveSimilarImageData(footPrint);
 	}
 	
