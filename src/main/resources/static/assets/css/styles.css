@@ -146,7 +146,10 @@ html,body{
 
 [router-outlet]{
     padding: 50px 15px;
-    display: flex;
+}
+
+[router-outlet]>div{
+	display: flex;
 }
 
 .btn_holder{
@@ -165,4 +168,21 @@ html,body{
 
 .card.active{
     border-bottom: 2px solid #39c;
+}
+
+.message-holder{
+	display:flex;
+}
+
+.msg-system{
+	color: #333;
+	border-radius: 4px;
+	padding: 15px;
+	margin: 10px auto;
+	text-align: center;
+	width:400px;
+}
+
+.msg-system.successfullMsg{
+	background: #4becc3;
 }

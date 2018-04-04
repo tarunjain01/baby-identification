@@ -5,6 +5,7 @@ package com.nasscom.buildforindia.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 /**
  * @author tarun_000

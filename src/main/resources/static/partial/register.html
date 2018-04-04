@@ -1,8 +1,16 @@
-<form id="newRegistryForm" class="form" style="margin:auto;">
-    <input type="text" name="motherAadhar" placeholder="Mother's Aadhar">
-    <input type="text" name="fatherAadhar" placeholder="Father's Aadhar">
-    <input type="text" name="birthPlace" placeholder="Birthplace">
-    <input type="file" name="files" id="filearray" accept="image/jpeg">
-    <label for="filearray" id="fileArrayLabel">Chose Scanned Images</label>
-    <input type="button" class="success" value="Submit" onclick="submitNewRegistry()">
-</form>
+<div class="message-holder">
+	<div class="successfullMsg msg-system" id="successfullMsg">
+		<p>Baby was successfully registered with the system.</p>
+		<p>NBAadhar ID : <span id="nb_aadharId">{aadharId}</span></p>
+	</div>
+</div>
+<div>
+	<form id="newRegistryForm" class="form" style="margin:auto;">
+	    <input type="text" name="motherAadhar" placeholder="Mother's Aadhar">
+	    <input type="text" name="fatherAadhar" placeholder="Father's Aadhar">
+	    <input type="text" name="birthPlace" placeholder="Birthplace">
+	    <input type="file" name="files" id="filearray" accept="image/jpeg">
+	    <label for="filearray" id="fileArrayLabel">Chose Scanned Images</label>
+	    <input type="button" class="success" value="Submit" onclick="submitNewRegistry()">
+	</form>
+</div>

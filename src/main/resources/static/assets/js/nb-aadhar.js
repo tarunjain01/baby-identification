@@ -67,7 +67,24 @@ var submitNewRegistry = function(){
         contentType: false,
         type: 'POST',
         success: function(data){
+            //alert(data);
+            $('#nb_aadharId')[0].innerHTML = data.id;
+        }
+    });
+}
+
+var submitMissingCase = function(){
+    var fd = new FormData($("#missingReportForm")[0]);
+
+    $.ajax({
+        url: '/BabyIdentification/api/upload/missing',
+        data: fd,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        success: function(data){
             alert(data);
+            //$('#nb_aadharId')[0].innerHTML = data.id;
         }
     });
 }
