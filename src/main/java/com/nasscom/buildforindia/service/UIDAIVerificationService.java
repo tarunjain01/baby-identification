@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.nasscom.buildforindia.integration.uidai.OTPGenerator;
 
 @Service
-public class OTPVerificationService {
+public class UIDAIVerificationService {
 
 	@Autowired
 	@Qualifier("MockUIDAI")
