@@ -238,7 +238,7 @@ html,body{
 
 .msg-system .content{
     flex: 1 100%;
-    align-items: center;
+    align-self: center;
 }
 
 .msg-system .closeIt{
