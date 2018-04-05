@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.sql.rowset.serial.SerialException;
@@ -85,8 +86,12 @@ public class IdentificationService {
 
 	public BabyData[] retrieveSimilarImageData(MultipartFile footPrint) throws IOException {
 		BabyData identifiedBaby = null;
-		MinHeap  closelyResembelingBabies = new MinHeap(10);
-		
+		MinHeap  closelyResembelingBabies = new MinHeap(3);
+		for(int i=0; i<3; i++){
+			BabyData babyData = new BabyData();
+			babyData.setScore(Double.MIN_VALUE);
+			closelyResembelingBabies.insert(babyData);
+		}
 		logger.debug("Executing retrieve call to get similar image data");
 		if (footPrint != null && !footPrint.isEmpty()) {
 			// read multipart data and convert it into bytes
@@ -116,26 +121,23 @@ public class IdentificationService {
 		    		    .index(babytemplate)
 		    		    .match(babyFingerprintTemplate);
 				baby.setScore(score);
-				if(closelyResembelingBabies.getSize() < 10){
-					closelyResembelingBabies.insert(baby);
-					if(closelyResembelingBabies.getSize() == 9){
-						closelyResembelingBabies.minHeap();
-					}
-				}else{
+				
 					BabyData heapFrontBaby = closelyResembelingBabies.getHeap()[closelyResembelingBabies.getFront()];
 					if(heapFrontBaby.getScore() < baby.getScore()){
 						closelyResembelingBabies.remove();
 						closelyResembelingBabies.insert(baby);
 						closelyResembelingBabies.minHeap();
 					}
-				}
+				
 					
 				
 				
 			});
 			// todo get iterable of babies missing and match their template with this one
 		}
-		return closelyResembelingBabies.getHeap();
+		BabyData[] list = closelyResembelingBabies.getHeap();
+		Arrays.sort(list);
+		return list;
 	}
 	
 	public boolean reportMissing(String babyId){

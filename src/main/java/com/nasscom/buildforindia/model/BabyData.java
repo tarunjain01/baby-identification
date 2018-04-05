@@ -12,7 +12,7 @@ import javax.persistence.GeneratedValue;
  *
  */
 @Entity
-public class BabyData {
+public class BabyData implements Comparable<BabyData>{
 	@javax.persistence.Id
 	@GeneratedValue
 	private Long id;
@@ -125,6 +125,18 @@ public class BabyData {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+
+	
+
+	@Override
+	public int compareTo(BabyData o) {
+		// TODO Auto-generated method stub
+		if(this.score > o.score){
+			return -1;
+		}else{
+			return 1;
+		}
 	}
 	
 }
