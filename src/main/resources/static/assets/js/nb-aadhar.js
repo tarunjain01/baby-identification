@@ -93,7 +93,7 @@ var trackBaby = function(){
     var fd = new FormData($("#missingReportForm")[0]);
 
     $.ajax({
-        url: '/api/retrieve/match',
+        url: '/BabyIdentification/api/retrieve/match',
         data: fd,
         processData: false,
         contentType: false,
