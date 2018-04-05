@@ -1,7 +1,12 @@
 <div class="message-holder">
-	<div class="successfullMsg msg-system" id="successfullMsg">
-		<p>Baby was successfully registered with the system.</p>
-		<p>NBAadhar ID : <span id="nb_aadharId">{aadharId}</span></p>
+	<div class="successfullMsg msg-system delayed-fadein hidden" id="successfullMsg">
+		<div class="content">
+			<p>Baby was successfully registered with the system.</p>
+			<p>NBAadhar ID : <span id="nb_aadharId">{aadharId}</span></p>
+		</div>
+		<div class="closeIt">
+			X
+		</div>
 	</div>
 </div>
 <div>
@@ -9,8 +14,10 @@
 	    <input type="text" name="motherAadhar" placeholder="Mother's Aadhar">
 	    <input type="text" name="fatherAadhar" placeholder="Father's Aadhar">
 	    <input type="text" name="birthPlace" placeholder="Birthplace">
-	    <input type="file" name="files" id="filearray" accept="image/jpeg">
-	    <label for="filearray" id="fileArrayLabel">Chose Scanned Images</label>
+	    <input type="file" name="leftPalm" id="fileLeftPalm" accept="image/jpeg">
+		<label for="fileLeftPalm" default-content="Chose Scanned Image of Left Palm">Chose Scanned Image of Left Palm</label>
+		<input type="file" name="rightPalm" id="fileRightPalm" accept="image/jpeg">
+	    <label for="fileRightPalm" default-content="Chose Scanned Image of Right Palm">Chose Scanned Image of Right Palm</label>
 	    <input type="button" class="success" value="Submit" onclick="submitNewRegistry()">
 	</form>
 </div>

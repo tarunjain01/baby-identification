@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.derby.impl.sql.execute.UpdatableVTIConstantAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.nasscom.buildforindia.model.BabyData;
 import com.nasscom.buildforindia.service.IdentificationService;
+
+import ch.qos.logback.core.net.SyslogOutputStream;
 
 /**
  * @author tarun_000
@@ -45,8 +48,14 @@ public class IdentificationController {
 			@RequestParam String motherAadhar, 
 			@RequestParam String fatherAadhar,
 			@RequestParam String birthPlace,
-			@RequestParam("files") MultipartFile[] uploadedFiles) {
+			@RequestParam("leftPalm") MultipartFile leftPalmScan,
+			@RequestParam("rightPalm") MultipartFile rightPalmScan,
+			@RequestParam(value="babyPic",required=false) MultipartFile babyPic) {
 		
+		MultipartFile[] uploadedFiles = new MultipartFile[] {leftPalmScan, rightPalmScan};
+		if (babyPic!=null) {
+			uploadedFiles[2] = babyPic;
+		}
 		// Get file name
         String uploadedFileName = Arrays.stream(uploadedFiles).map(x -> x.getOriginalFilename())
                 .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));

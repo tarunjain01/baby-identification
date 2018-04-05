@@ -35,7 +35,10 @@ $Router.config([
 ],{
     activateLinks: false,
     afterRouteChange: function(){
-        $('#filearray').on('change', function(e){
+        $("label").each(function(){
+            $(this)[0].innerHTML = $(this).attr("default-content");
+        });
+        $('input[type="file"]').on('change', function(e){
             var fileName = '';
 		    if(this.files)
                 fileName = e.target.value.split( '\\' ).pop();
@@ -43,8 +46,8 @@ $Router.config([
             var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
             if(fileName.trim()){
                 if (extFile=="jpg" || extFile=="jpeg"){
-                    $('#fileArrayLabel')[0].innerHTML = fileName;
-                    $('#fileArrayLabel').addClass('files-added');
+                    this.nextElementSibling.innerHTML = fileName;
+                    $(this.nextElementSibling).addClass('files-added');
                 }else{
                     alert("Only jpg/jpeg files are allowed!");
                 }
@@ -69,6 +72,11 @@ var submitNewRegistry = function(){
         success: function(data){
             //alert(data);
             $('#nb_aadharId')[0].innerHTML = data.uuid;
+            $("#successfullMsg").removeClass("hidden");
+            $("label").each(function(){
+                $(this)[0].innerHTML = $(this).attr("default-content");
+            });
+            $("#newRegistryForm")[0].reset();
         }
     });
 }
@@ -84,7 +92,7 @@ var submitMissingCase = function(){
         type: 'POST',
         success: function(data){
             alert(data);
-            //$('#nb_aadharId')[0].innerHTML = data.id;
+            $("#missingReportForm")[0].reset();
         }
     });
 }
@@ -100,7 +108,7 @@ var trackBaby = function(){
         type: 'GET',
         success: function(data){
             alert(data);
-            //$('#nb_aadharId')[0].innerHTML = data.id;
+            $("#missingReportForm")[0].reset();
         }
     });
 }
