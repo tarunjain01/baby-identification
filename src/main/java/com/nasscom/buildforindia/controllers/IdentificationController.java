@@ -65,7 +65,7 @@ public class IdentificationController {
         }
         BabyData babyData = new BabyData();
         try {
-        	babyData = identificationService.saveData(motherAadhar, fatherAadhar, birthPlace, uploadedFiles);
+        	babyData = identificationService.saveData(motherAadhar, fatherAadhar, birthPlace, leftPalmScan, rightPalmScan);
 		
         } catch (Exception e) {
         	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

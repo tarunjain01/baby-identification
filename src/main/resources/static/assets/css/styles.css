@@ -34,6 +34,13 @@ html,body{
     display: none !important;
 }
 
+.form.padded{
+    padding: 10px;
+    box-shadow: 1px 1px 3px #ddd;
+    background: #fff;
+    position: relative;
+}
+
 .form.login-form, .form.signup-form{
     position: absolute;
     right: 15%;

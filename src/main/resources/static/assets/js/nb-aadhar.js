@@ -35,8 +35,11 @@ $Router.config([
 ],{
     activateLinks: false,
     afterRouteChange: function(){
-        $("label").each(function(){
-            $(this)[0].innerHTML = $(this).attr("default-content");
+        $('.closeIt').on('click',function(){
+            $(this).parent().addClass('hidden');
+        });
+        $("input[need-otp]").on('blur',function(){
+            console.log($(this),$(this).position().left,$(this).position().top,$(this).height());
         });
         $('input[type="file"]').on('change', function(e){
             var fileName = '';

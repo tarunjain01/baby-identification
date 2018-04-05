@@ -45,38 +45,30 @@ public class IdentificationService {
 		this.UPLOADED_FOLDER = uploadedFolder;
 	}
 	
-	public BabyData saveData(String motherAadhar, String fatherAadhar, String birthPlace, MultipartFile[] uploadedFiles) throws IOException, SerialException, SQLException {
+	public BabyData saveData(String motherAadhar, String fatherAadhar, String birthPlace, MultipartFile leftPalmScan, MultipartFile rightPalmScan) throws IOException, SerialException, SQLException {
 		logger.debug("Executing save method - saving image files");
 		BabyData babyData = new BabyData();
-		for (MultipartFile file : uploadedFiles) {
-			if (file.isEmpty())
-				continue;
-			
-			byte[] babyFingerprint = file.getBytes();
-			
-			FingerprintTemplate babyFingerprintTemplate = new FingerprintTemplate()
-		    	    .dpi(500)
-		    	    .create(babyFingerprint);
-			
-			synchronized(this) {
-				boolean isUnique = false;
-				while (!isUnique) {
-					String uuid = java.util.UUID.randomUUID().toString();
-					BabyData nonUniqueBaby = identificationRepository.findOneByUuid(uuid);
-					isUnique = nonUniqueBaby == null ? true : false;
-					babyData.setUuid(uuid);
-				}
+		byte[] leftPalmFingerprint = leftPalmScan.getBytes();
+		byte[] rightPalmFingerprint = rightPalmScan.getBytes();
+		FingerprintTemplate babyLeftFingerprintTemplate = new FingerprintTemplate().dpi(500).create(leftPalmFingerprint);
+		FingerprintTemplate babyRightFingerprintTemplate = new FingerprintTemplate().dpi(500).create(rightPalmFingerprint);
+		synchronized(this) {
+			boolean isUnique = false;
+			while (!isUnique) {
+				String uuid = java.util.UUID.randomUUID().toString();
+				BabyData nonUniqueBaby = identificationRepository.findOneByUuid(uuid);
+				isUnique = nonUniqueBaby == null ? true : false;
+				babyData.setUuid(uuid);
 			}
-			Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename()+"-"+babyData.getUuid());
-			Files.write(path, babyFingerprint);
-			
-			babyData.setLeftImageFile(file.getOriginalFilename()+"-"+babyData.getUuid());
-			babyData.setRightImageFile(file.getOriginalFilename()+"-"+babyData.getUuid());
-			
-			babyData.setLeftTemplate(babyFingerprintTemplate.serialize());
-			babyData.setRightTemplate(babyFingerprintTemplate.serialize());
-			
 		}
+		Path leftPalmPath = Paths.get(UPLOADED_FOLDER + leftPalmScan.getOriginalFilename()+"-"+babyData.getUuid());
+		Path rightPalmPath = Paths.get(UPLOADED_FOLDER + rightPalmScan.getOriginalFilename()+"-"+babyData.getUuid());
+		Files.write(leftPalmPath, leftPalmFingerprint);
+		Files.write(rightPalmPath, rightPalmFingerprint);
+		babyData.setLeftImageFile(leftPalmScan.getOriginalFilename()+"-"+babyData.getUuid());
+		babyData.setRightImageFile(rightPalmScan.getOriginalFilename()+"-"+babyData.getUuid());
+		babyData.setLeftTemplate(babyLeftFingerprintTemplate.serialize());
+		babyData.setRightTemplate(babyRightFingerprintTemplate.serialize());
 		babyData.setMotherAadhar(motherAadhar);
 		babyData.setFatherAadhar(fatherAadhar);
 		babyData.setBirthPlace(birthPlace);
