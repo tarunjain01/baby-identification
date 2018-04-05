@@ -79,8 +79,8 @@ public class IdentificationController {
 		return identificationService.retrieveAll();
 	}
 	
-	@GetMapping("/api/retrieve/match")
-	public BabyData[] retrieveMatch( MultipartFile uploadedFile ) throws IOException {
+	@PostMapping("/api/retrieve/match")
+	public BabyData[] retrieveMatch( @RequestParam("files") MultipartFile uploadedFile ) throws IOException {
 		return identificationService.retrieveSimilarImageData(uploadedFile);
 	}
 	

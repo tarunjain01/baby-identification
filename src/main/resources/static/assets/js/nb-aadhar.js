@@ -108,7 +108,7 @@ var trackBaby = function(){
         data: fd,
         processData: false,
         contentType: false,
-        type: 'GET',
+        type: 'POST',
         success: function(data){
             alert(data);
             $("#missingReportForm")[0].reset();
