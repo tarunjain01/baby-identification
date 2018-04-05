@@ -189,9 +189,9 @@ html,body{
 	border-radius: 4px;
 	padding: 15px;
 	margin: 10px auto;
-	text-align: center;
-    width:400px;
+    width:420px;
     display: flex;
+    font-size: 14px;
 }
 
 .msg-system .content{
@@ -208,4 +208,40 @@ html,body{
 
 .msg-system.successfullMsg{
 	background: #4becc3;
+}
+
+[router-outlet]>div.result{
+    display: block;
+    margin: 50px auto 0;
+    width: 70%;
+}
+
+.result h3{
+    color: #555;
+    padding: 5px;
+}
+
+.table{
+    border-spacing: 0;
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 1px 1px 3px #ddd;
+}
+
+.table th,
+.table td,
+.table caption {
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #eee;
+}
+
+.action-btn{
+    padding: 5px;
+    border-radius: 4px;
+    background: #39c;
+    color: #fff;
+    cursor: pointer;
+    border: none;
 }

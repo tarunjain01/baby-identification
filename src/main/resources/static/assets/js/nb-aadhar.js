@@ -40,7 +40,7 @@ $Router.config([
             $(this).parent().addClass('hidden');
         });
         $("input[need-otp]").on('blur',function(){
-            console.log($(this),$(this).position().left,$(this).position().top,$(this).height());
+            //console.log($(this),$(this).position().left,$(this).position().top,$(this).height());
         });
         $('input[type="file"]').on('change', function(e){
             var fileName = '';
@@ -76,9 +76,6 @@ var submitNewRegistry = function(){
         success: function(data){
             $('#nb_aadharId')[0].innerHTML = data.uuid;
             $("#successfullMsg").removeClass("hidden");
-            setTimeout(function(){
-                $("#successfullMsg").addClass("hidden");
-            },2000);
             $("label").each(function(){
                 $(this)[0].innerHTML = $(this).attr("default-content");
             });
@@ -103,6 +100,23 @@ var submitMissingCase = function(){
     });
 }
 
+function formulateResultTable(data){
+    var tbody = $("#missingKidsTable").find('tbody');
+    console.log(tbody);
+    for(var i =0; i<data.length; i++){
+        if(data[i] != null && data[i].uuid != null && data[i].score !=null){
+            var row = $('<tr></tr>'),
+            serialNo = $('<td></td>').text(i+1),
+            uuid = $('<td></td>').text(data[i].uuid),
+            matchPercentage = $('<td></td>').text(Math.round(data[i].score)+"%"),
+            actionButton = $("<button class='action-btn'></button>").text("Contact Parents"),
+            actionCall = $('<td></td>').append(actionButton);
+            row.prepend(serialNo, uuid, matchPercentage, actionCall);
+            tbody.append(row);
+        }
+    }
+}
+
 var trackBaby = function(){
     var fd = new FormData($("#trackForm")[0]);
 
@@ -113,7 +127,8 @@ var trackBaby = function(){
         contentType: false,
         type: 'POST',
         success: function(data){
-            alert(data);
+            $(".result").removeClass("hidden");
+            formulateResultTable(data);
             $("#trackForm")[0].reset();
         }
     });
