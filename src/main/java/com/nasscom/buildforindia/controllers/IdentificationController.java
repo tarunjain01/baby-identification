@@ -81,6 +81,7 @@ public class IdentificationController {
 			@RequestParam String fatherAadhar,
 			@RequestParam String babyId) {
 	
+		identificationService.reportMissing(babyId);
 		 return new ResponseEntity<String>("Successfully Uploaded", HttpStatus.OK);
 	}
 	

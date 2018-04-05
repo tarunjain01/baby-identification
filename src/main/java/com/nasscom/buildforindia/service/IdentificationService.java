@@ -145,5 +145,14 @@ public class IdentificationService {
 		}
 		return closelyResembelingBabies.getHeap();
 	}
+	
+	public boolean reportMissing(String babyId){
+		
+		BabyData missingBabyData = identificationRepository.findOneByUuid(babyId);
+		missingBabyData.setMissing(true);
+		identificationRepository.save(missingBabyData);
+		
+		return true;
+	}
 
 }

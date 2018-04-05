@@ -88,3 +88,19 @@ var submitMissingCase = function(){
         }
     });
 }
+
+var trackBaby = function(){
+    var fd = new FormData($("#missingReportForm")[0]);
+
+    $.ajax({
+        url: '/api/retrieve/match',
+        data: fd,
+        processData: false,
+        contentType: false,
+        type: 'GET',
+        success: function(data){
+            alert(data);
+            //$('#nb_aadharId')[0].innerHTML = data.id;
+        }
+    });
+}
