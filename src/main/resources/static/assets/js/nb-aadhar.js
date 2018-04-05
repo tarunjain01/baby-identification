@@ -33,7 +33,8 @@ $Router.config([
     {path:'track',templateUrl:'partial/track.html'},
     {otherwise:'register'}
 ],{
-    activateLinks: false,
+    defaultLinkClass:"card",
+    activateLinks: true,
     afterRouteChange: function(){
         $('.closeIt').on('click',function(){
             $(this).parent().addClass('hidden');
@@ -73,9 +74,11 @@ var submitNewRegistry = function(){
         contentType: false,
         type: 'POST',
         success: function(data){
-            //alert(data);
             $('#nb_aadharId')[0].innerHTML = data.uuid;
             $("#successfullMsg").removeClass("hidden");
+            setTimeout(function(){
+                $("#successfullMsg").addClass("hidden");
+            },2000);
             $("label").each(function(){
                 $(this)[0].innerHTML = $(this).attr("default-content");
             });
@@ -101,17 +104,17 @@ var submitMissingCase = function(){
 }
 
 var trackBaby = function(){
-    var fd = new FormData($("#missingReportForm")[0]);
+    var fd = new FormData($("#trackForm")[0]);
 
     $.ajax({
         url: '/BabyIdentification/api/retrieve/match',
         data: fd,
         processData: false,
         contentType: false,
-        type: 'GET',
+        type: 'POST',
         success: function(data){
             alert(data);
-            $("#missingReportForm")[0].reset();
+            $("#trackForm")[0].reset();
         }
     });
 }

@@ -30,15 +30,15 @@
             <div class="logout" onclick="logout()">Logout</div>
         </div>
         <div class="btn_holder">
-            <div class="card" onclick="navigateTo('register')">
+            <a href="#register" class="card">
                 Register Now
-            </div>
-            <div class="card" onclick="navigateTo('reportMissing')">
+            </a>
+            <a class="card" href='#reportMissing'>
                 Register Missing Case
-            </div>
-            <div class="card" onclick="navigateTo('track')">
+            </a>
+            <a class="card" href='#track'>
                 Track Now
-            </div>
+            </a>
         </div>
         <div router-outlet></div>
     </div>

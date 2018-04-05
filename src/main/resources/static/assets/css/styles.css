@@ -160,21 +160,24 @@ html,body{
 }
 
 .btn_holder{
-    padding: 15px;
+    background: #fff;
 }
 
 .card{
     background: #fff;
     padding: 20px;
     display: inline-block;
-    box-shadow: 1px 0 3px 1px #ddd;
     border-radius: 2px;
-    margin: 0 5px 0 0 ;
     cursor: pointer;
+    text-decoration: none;
+    color: #333;
+    transition: all 400ms;
 }
 
 .card.active{
     border-bottom: 2px solid #39c;
+    background: #69c6f5;
+    color: #fff;
 }
 
 .message-holder{
