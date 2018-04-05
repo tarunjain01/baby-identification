@@ -80,8 +80,8 @@ public class IdentificationController {
 	}
 	
 	@PostMapping("/api/retrieve/match")
-	public BabyData[] retrieveMatch( @RequestParam("files") MultipartFile uploadedFile ) throws IOException {
-		return identificationService.retrieveSimilarImageData(uploadedFile);
+	public BabyData[] retrieveMatch( @RequestParam("files") MultipartFile[] uploadedFile ) throws IOException {
+		return identificationService.retrieveSimilarImageData(uploadedFile[0]);
 	}
 	
 	@PostMapping("/api/upload/missing")
