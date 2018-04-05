@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.nasscom.buildforindia.model.BabyData;
 import com.nasscom.buildforindia.service.IdentificationService;
+import com.nasscom.buildforindia.service.UIDAIVerificationService;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 
@@ -37,6 +38,9 @@ public class IdentificationController {
 	
 	@Autowired
 	private IdentificationService identificationService;
+
+	@Autowired
+	private UIDAIVerificationService otpVerificationService;
 	
 	@PostMapping("/api/upload/checkSimilarity")
 	public BabyData[] getSimilarImageIfExist(@RequestParam MultipartFile footPrint) throws IOException {
@@ -101,6 +105,29 @@ public class IdentificationController {
 	
 		 return new ResponseEntity<String>("Successfully Uploaded", HttpStatus.OK);
 	}
-	
 
+	@PostMapping("/api/otp/send")
+	public ResponseEntity<?> sentUidaiOtp(
+			@RequestParam String uid) {
+		 
+		try {
+			return new ResponseEntity<String>(this.otpVerificationService.sendOTPForUid(uid), HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<String>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+	
+	@GetMapping("/api/otp/verify")
+	public ResponseEntity<?> sentUidaiOtp(
+			@RequestParam String key,
+			@RequestParam String otp) {
+		 
+		try {
+			return new ResponseEntity<String>(this.otpVerificationService.verifyOTP(key, otp)? "SUCCESS" : "FAILURE", HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<String>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
 }
