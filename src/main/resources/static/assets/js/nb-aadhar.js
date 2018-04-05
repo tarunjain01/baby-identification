@@ -64,16 +64,25 @@ var navigateTo = function(hashToGo){
     $Router.go(hashToGo);
 }
 
+var showLoaderScreen = function(cond){
+    if(cond){
+        $(".loader-screen").removeClass("hidden");
+    } else {
+        $(".loader-screen").addClass("hidden");
+    }
+}
+
 var submitNewRegistry = function(){
     var fd = new FormData($("#newRegistryForm")[0]);
-
     $.ajax({
         url: '/BabyIdentification/api/upload/files',
         data: fd,
+        beforeSend: function(){showLoaderScreen(true)},
         processData: false,
         contentType: false,
         type: 'POST',
         success: function(data){
+            showLoaderScreen(false);
             $('#nb_aadharId')[0].innerHTML = data.uuid;
             $("#successfullMsg").removeClass("hidden");
             $("label").each(function(){
@@ -86,15 +95,16 @@ var submitNewRegistry = function(){
 
 var submitMissingCase = function(){
     var fd = new FormData($("#missingReportForm")[0]);
-
     $.ajax({
         url: '/BabyIdentification/api/upload/missing',
         data: fd,
+        beforeSend: function(){showLoaderScreen(true)},
         processData: false,
         contentType: false,
         type: 'POST',
         success: function(data){
-            alert(data);
+            showLoaderScreen(false);
+            $("#missingMsg").removeClass("hidden");
             $("#missingReportForm")[0].reset();
         }
     });
@@ -102,7 +112,6 @@ var submitMissingCase = function(){
 
 function formulateResultTable(data){
     var tbody = $("#missingKidsTable").find('tbody');
-    console.log(tbody);
     for(var i =0; i<data.length; i++){
         if(data[i] != null && data[i].uuid != null && data[i].score !=null){
             var row = $('<tr></tr>'),
@@ -119,14 +128,15 @@ function formulateResultTable(data){
 
 var trackBaby = function(){
     var fd = new FormData($("#trackForm")[0]);
-
     $.ajax({
         url: '/BabyIdentification/api/retrieve/match',
         data: fd,
+        beforeSend: function(){showLoaderScreen(true)},
         processData: false,
         contentType: false,
         type: 'POST',
         success: function(data){
+            showLoaderScreen(false);
             $(".result").removeClass("hidden");
             formulateResultTable(data);
             $("#trackForm")[0].reset();
