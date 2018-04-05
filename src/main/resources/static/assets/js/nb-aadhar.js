@@ -20,6 +20,7 @@ var toggleform = function(currentForm){
 var login = function() {
     $("#bg-intro").addClass("hidden");
     $("#dashboard").removeClass("hidden");
+    $Router.go("register");
 }
 
 var logout = function() {
