@@ -51,7 +51,7 @@ public class IdentificationController {
 			@RequestParam String birthPlace,
 			@RequestParam("leftPalm") MultipartFile leftPalmScan,
 			@RequestParam("rightPalm") MultipartFile rightPalmScan,
-			@RequestParam(value="babyPic",required=false) MultipartFile babyPic) {
+			@RequestParam(value="babyPic", required=false) MultipartFile babyPic) {
 		
 		MultipartFile[] uploadedFiles = new MultipartFile[] {leftPalmScan, rightPalmScan};
 		if (babyPic!=null) {
