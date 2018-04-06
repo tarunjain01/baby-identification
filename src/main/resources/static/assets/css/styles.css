@@ -136,10 +136,13 @@ html,body{
     padding: 20px 10px;
     display: inline-block;
     text-align: center;
-    background: #cecece;
-    color: #6f6f6f;
+    background: #d6d6d6;
+    color: #545454;
     font-weight: bold;
+    border: 1px dashed #adadad;
     cursor: pointer;
+    border-radius: 3px;
+    margin: 0 0 2px 0;
 }
 
 .form input[type="file"] + label.files-added{
@@ -179,8 +182,13 @@ html,body{
     float: left;
 }
 
+.navbar .brand-img{
+    position: relative;
+    top: 6px;
+}
+
 .navbar .logout{
-    padding: 15px;
+    padding: 18px;
     float: right;
     cursor: pointer;
     background: #39cfff;
@@ -287,4 +295,36 @@ html,body{
     color: #fff;
     cursor: pointer;
     border: none;
+}
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    background: #756f58;
+    color: #fff;
+}
+
+.footer .footerContent{
+    display: flex;
+    width: 40%;
+    margin: auto;
+}
+
+.footerContent > div{
+    flex: 1 100%;
+    align-self: center;
+}
+
+.df{
+    display: flex;
+}
+
+.df > ff{
+    flex: 1 100%;
+}
+
+.df > nf{
+    flex: none;
 }

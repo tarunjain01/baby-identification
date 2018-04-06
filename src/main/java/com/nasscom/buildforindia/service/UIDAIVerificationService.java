@@ -10,7 +10,7 @@ import com.nasscom.buildforindia.integration.uidai.OTPGenerator;
 public class UIDAIVerificationService {
 
 	@Autowired
-	@Qualifier("MockUIDAI")
+	@Qualifier("TwoFactor")
 	OTPGenerator otpGenerator;
 
 	public String sendOTPForUid(String uid) throws Exception {

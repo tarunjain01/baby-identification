@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.derby.impl.sql.execute.UpdatableVTIConstantAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nasscom.buildforindia.model.BabyData;
 import com.nasscom.buildforindia.service.IdentificationService;
 import com.nasscom.buildforindia.service.UIDAIVerificationService;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
 
 /**
  * @author tarun_000
@@ -106,7 +103,7 @@ public class IdentificationController {
 		 return new ResponseEntity<String>("Successfully Uploaded", HttpStatus.OK);
 	}
 
-	@PostMapping("/api/otp/send")
+	@GetMapping("/api/otp/send")
 	public ResponseEntity<?> sentUidaiOtp(
 			@RequestParam String uid) {
 		 
