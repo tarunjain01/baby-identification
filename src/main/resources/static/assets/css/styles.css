@@ -91,7 +91,7 @@ html,body{
     top: 40%;
 }
 
-.form input {
+.form input, .form .input {
     display: block;
     font-size: 18px;
     padding: 20px 10px;
@@ -100,6 +100,39 @@ html,body{
     width: 400px;
     outline: none;
     border: none;
+}
+
+.form .input{
+	border: 2px solid #fff;
+	color: #ccc;
+}
+
+.input .switch{
+	display: inline-block;
+	margin-left: 30px;
+}
+
+.switch label{
+	cursor: pointer;
+}
+
+.form .input:after, .form .input:before{
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.form input[type="radio"]{
+	display: none;
+}
+
+.form input[type="radio"] + span{
+	padding: 5px;
+}
+
+.form input[type="radio"]:checked + span{
+	background: #39c;
+	color: #fff;
 }
 
 .form input.error{
@@ -117,6 +150,7 @@ html,body{
     background: #3a1c14;
     color: #fff;
     padding: 15px;
+    width: 100%;
 }
 
 .form input[type="button"].success{
@@ -142,7 +176,7 @@ html,body{
     padding: 20px 10px;
     display: inline-block;
     text-align: center;
-    background: #d6d6d6;
+    background: #eee;
     color: #545454;
     font-weight: bold;
     border: 1px dashed #adadad;
@@ -336,11 +370,11 @@ html,body{
     display: flex;
 }
 
-.df > ff{
+.df > .ff{
     flex: 1 100%;
 }
 
-.df > nf{
+.df > .nf{
     flex: none;
 }
 

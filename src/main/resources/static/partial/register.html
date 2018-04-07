@@ -23,16 +23,26 @@
 			<div class="ff">
 				<input type="text" name="motherAadhar" placeholder="Mother's Aadhar" need-otp="mother" maxlength="12" autocomplete="off">
 			    <input type="text" name="fatherAadhar" placeholder="Father's Aadhar" need-otp="father" maxlength="12" autocomplete="off">
-			    <input type="text" name="birthPlace" placeholder="Birthplace">
+			    <input type="text" name="birthDate" placeholder="DD/MM/YYYY">
+			    <div class="input">
+		    		Gender
+		    		<div class="switch">
+		    			<label for="female"><input type="radio" name="babyGender" value="female" id="female" checked><span>Female</span></label>
+		    			<label for="male"><input type="radio" name="babyGender" value="male" id="male"><span>Male</span></label>
+		    		</div>
+			    </div>
 			    <input type="file" name="leftPalm" id="fileLeftPalm" accept="image/jpeg">
 				<label for="fileLeftPalm" default-content="Chose Scanned Image of Left Palm">Chose Scanned Image of Left Palm</label>
+			</div>
+			<div class="ff">
+				<input type="text" name="addressLine1" placeholder="Address Line 1">
+				<input type="text" name="addressLine2" placeholder="Address Line 2">
+				<input type="text" name="city" placeholder="City">
+				<input type="text" name="state" placeholder="State">
 				<input type="file" name="rightPalm" id="fileRightPalm" accept="image/jpeg">
 			    <label for="fileRightPalm" default-content="Chose Scanned Image of Right Palm">Chose Scanned Image of Right Palm</label>
 			</div>
-			<div class="ff">
-			
-			</div>
 		</div>
-	    <input type="button" class="success" value="Submit" onclick="submitNewRegistry()">
+	    <input type="button" class="success" value="Submit" onclick="submitNewRegistry()" style="margin-top:10px;">
 	</form>
 </div>
