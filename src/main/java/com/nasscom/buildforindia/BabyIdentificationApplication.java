@@ -3,8 +3,6 @@ package com.nasscom.buildforindia;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.avro.hadoop.io.AvroDeserializer;
-import org.apache.avro.hadoop.io.AvroSerializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -19,6 +17,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+
+import com.nasscom.buildforindia.service.AvroDeserializer;
+import com.nasscom.buildforindia.service.AvroSerializer;
 
 @SpringBootApplication
 @Configuration
@@ -44,7 +45,7 @@ public class BabyIdentificationApplication {
 	    Map<String, Object> props = new HashMap<>();
 	    props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 	    props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-	    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,AvroSerializer.class);
+	    props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, AvroSerializer.class);
 	    return props;
 	}
 

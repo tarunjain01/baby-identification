@@ -3,12 +3,13 @@
  */
 package com.nasscom.buildforindia.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,7 +48,7 @@ public class IdentificationService {
 		this.UPLOADED_FOLDER = uploadedFolder;
 	}
 	
-	public BabyData saveData(String motherAadhar, String fatherAadhar, String birthPlace, String addressLine1, String addressLine2, String city, String state, MultipartFile leftPalmScan, MultipartFile rightPalmScan) throws IOException, SerialException, SQLException {
+	public BabyData saveData(String motherAadhar, String fatherAadhar, String birthDate, String birthPlace, String addressLine1, String addressLine2, String city, String state, MultipartFile leftPalmScan, MultipartFile rightPalmScan) throws IOException, SerialException, SQLException, ParseException {
 		logger.debug("Executing save method - saving image files");
 		BabyData babyData = new BabyData();
 		byte[] leftPalmFingerprint = leftPalmScan.getBytes();
@@ -78,6 +79,7 @@ public class IdentificationService {
 		babyData.setRightTemplate(babyRightFingerprintTemplate.serialize());
 		babyData.setMotherAadhar(motherAadhar);
 		babyData.setFatherAadhar(fatherAadhar);
+		babyData.setBirthDate(new SimpleDateFormat("dd/mm/yyyy").parse(birthDate));
 		
 		Address address = new Address();
 		address.setBirthPlace(birthPlace);
@@ -153,11 +155,6 @@ public class IdentificationService {
 						closelyResembelingBabies.minHeap();
 					}
 				}
-					
-				
-					
-				
-				
 			});
 			// todo get iterable of babies missing and match their template with this one
 		}
