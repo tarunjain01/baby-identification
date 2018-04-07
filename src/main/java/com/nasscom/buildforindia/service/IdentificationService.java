@@ -180,22 +180,24 @@ public class IdentificationService {
 			String contactNumber) throws IOException {
 		logger.debug("Executing update method - updating image files");
 		
-		byte[] leftPalmFingerprint = leftMultipartFile.getBytes();
-		byte[] rightPalmFingerprint = rightMultipartFile.getBytes();
-		FingerprintTemplate babyLeftFingerprintTemplate = new FingerprintTemplate().dpi(500).create(leftPalmFingerprint);
-		FingerprintTemplate babyRightFingerprintTemplate = new FingerprintTemplate().dpi(500).create(rightPalmFingerprint);
-				
-		// Saving of fingerprint images of babies to datafolder
-		Path leftPalmPath = Paths.get(UPLOADED_FOLDER + leftMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
-		Path rightPalmPath = Paths.get(UPLOADED_FOLDER + rightMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
-		Files.write(leftPalmPath, leftPalmFingerprint);
-		Files.write(rightPalmPath, rightPalmFingerprint);
+		if (leftMultipartFile != null) {
+			byte[] leftPalmFingerprint = leftMultipartFile.getBytes();
+			FingerprintTemplate babyLeftFingerprintTemplate = new FingerprintTemplate().dpi(500).create(leftPalmFingerprint);
+			Path leftPalmPath = Paths.get(UPLOADED_FOLDER + leftMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
+			Files.write(leftPalmPath, leftPalmFingerprint);
+			babyData.setLeftImageFile(leftMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
+			babyData.setLeftTemplate(babyLeftFingerprintTemplate.serialize());
+		}
 		
-		// Creation of babyData object and mapping
-		babyData.setLeftImageFile(leftMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
-		babyData.setRightImageFile(leftMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
-		babyData.setLeftTemplate(babyLeftFingerprintTemplate.serialize());
-		babyData.setRightTemplate(babyRightFingerprintTemplate.serialize());
+		if (rightMultipartFile != null) {
+			byte[] rightPalmFingerprint = rightMultipartFile.getBytes();
+			FingerprintTemplate babyRightFingerprintTemplate = new FingerprintTemplate().dpi(500).create(rightPalmFingerprint);
+			Path rightPalmPath = Paths.get(UPLOADED_FOLDER + rightMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
+			Files.write(rightPalmPath, rightPalmFingerprint);
+			babyData.setRightImageFile(leftMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
+			babyData.setRightTemplate(babyRightFingerprintTemplate.serialize());
+		}
+		
 		babyData.setContactNumber(contactNumber);
 		//Persisting data
 		return identificationRepository.save(babyData);
