@@ -5,6 +5,7 @@ package com.nasscom.buildforindia.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class BabyData implements Comparable<BabyData>{
 	
 	private String babyRecentImage;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Address address;
 	
 	private String motherAadhar;
