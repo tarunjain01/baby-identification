@@ -25,16 +25,6 @@ public class Address {
 	
 	private String addressLine2;
 	
-	private String birthPlace;
-	
-	public String getBirthPlace() {
-		return birthPlace;
-	}
-
-	public void setBirthPlace(String birthPlace) {
-		this.birthPlace = birthPlace;
-	}
-
 	public String getCity() {
 		return city;
 	}
