@@ -61,10 +61,17 @@ $Router.config([
             	        type: 'GET',
             	        success: function(data){
             	            showLoaderScreen(false);
-            	            console.log(data);
-            	            var otpPop = $('<div class="otp-grabber"><input type="text" otp-input-for="'+data+'" placeholder="OTP For '+that.val()+'"/><button>Verify</button></div>');
-            	            that.after(otpPop);
-            	            registerOTPInput(data);
+            	            $("div[otp-grabber-for="+that.attr("need-otp")+"]").remove();
+        	            	var otpPop = $('<div class="otp-grabber" otp-grabber-for="'
+        	            			+that.attr("need-otp")+'" id="otp-grabber-'
+        	            			+data+'"><input type="text" maxlength="4" otp-input-for="'
+        	            			+data+'" placeholder="OTP For '
+        	            			+that.val()+'"/><div class="verify-otp-btn" onclick="registerOTPInput(\''
+        	            			+data+'\')">Verify</div></div>');
+        	            	that.after(otpPop);
+            	            $("input[otp-input-for="+data+"]").focus();
+            	            that.attr("otp-uid",data);
+            	            that.attr("otp-verification-done","false")
             	        }
             	    });
         		}
@@ -89,7 +96,22 @@ $Router.config([
 });
 
 var registerOTPInput = function(uidForOTP){
-	$("input[otp-input-for="+uidForOTP+"]");
+	var otpval = $("input[otp-input-for="+uidForOTP+"]").val();
+	$.ajax({
+        url: '/BabyIdentification/api/otp/verify',
+        data: {"key":uidForOTP,"otp":otpval},
+        beforeSend: function(){showLoaderScreen(true)},
+        type: 'GET',
+        success: function(data){
+            showLoaderScreen(false);
+            if(data==="SUCCESS"){
+            	$("#otp-grabber-"+uidForOTP).remove();
+            	$("input[otp-uid='"+uidForOTP+"']").attr("otp-verification-done","true");
+            } else {
+            	$("#otp-grabber-"+uidForOTP+" input").addClass("error");
+            }
+        }
+    });
 };
 
 var navigateTo = function(hashToGo){

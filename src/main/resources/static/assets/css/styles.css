@@ -343,3 +343,23 @@ html,body{
 .df > nf{
     flex: none;
 }
+
+.otp-grabber{
+	position: relative;
+}
+
+.otp-grabber .verify-otp-btn{
+	position: absolute;
+	top: 15px; right: 5px;
+	padding: 8px;
+	border: none;
+	border-radius: 5px;
+	background: #39c; 
+	color: #fff;
+	cursor: pointer;
+}
+
+input[otp-verification-done="true"]{
+	pointer-events: none;
+	background: rgba(202, 243, 202, 0.4) !important;
+}
