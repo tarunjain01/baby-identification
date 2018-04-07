@@ -53,6 +53,7 @@ $Router.config([
         		$(this).removeClass("error");
         		$(".message-holder .errorMsg").addClass("hidden");
         		if($(this).val().length > 0){
+        			var that = $(this);
         			$.ajax({
             	        url: '/BabyIdentification/api/otp/send',
             	        data: {"aadharId": $(this).val()},
@@ -60,18 +61,14 @@ $Router.config([
             	        type: 'GET',
             	        success: function(data){
             	            showLoaderScreen(false);
-            	            /*$('#nb_aadharId')[0].innerHTML = data.uuid;
-            	            $("#successfullMsg").removeClass("hidden");
-            	            $("label").each(function(){
-            	                $(this)[0].innerHTML = $(this).attr("default-content");
-            	            });
-            	            $("#newRegistryForm")[0].reset();*/
             	            console.log(data);
+            	            var otpPop = $('<div class="otp-grabber"><input type="text" otp-input-for="'+data+'" placeholder="OTP For '+that.val()+'"/><button>Verify</button></div>');
+            	            that.after(otpPop);
+            	            registerOTPInput(data);
             	        }
             	    });
         		}
         	}
-            //console.log($(this),$(this).position().left,$(this).position().top,$(this).height());
         });
         $('input[type="file"]').on('change', function(e){
             var fileName = '';
@@ -90,6 +87,10 @@ $Router.config([
         });
     }
 });
+
+var registerOTPInput = function(uidForOTP){
+	$("input[otp-input-for="+uidForOTP+"]");
+};
 
 var navigateTo = function(hashToGo){
     $Router.go(hashToGo);
