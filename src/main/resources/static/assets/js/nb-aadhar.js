@@ -115,6 +115,31 @@ var registerOTPInput = function(uidForOTP){
     });
 };
 
+var fetchBabyByUUID = function(){
+	var uuid = $("input[to-fetch]").val();
+	$.ajax({
+        url: '/BabyIdentification/api/find/'+uuid,
+        beforeSend: function(){showLoaderScreen(true)},
+        type: 'GET',
+        success: function(data){
+            showLoaderScreen(false);
+            console.log(data);
+            populateUIWithData(data);
+        }
+    });
+};
+
+var populateUIWithData = function(data){
+	for (var key in data) {
+	    if (data.hasOwnProperty(key)) {
+	        //console.log(key + " -> " + p[key]);
+	    	if($("input[name="+key+"]").length > 0){
+	    		$("input[name="+key+"]").val(data[key]);
+	    	}
+	    }
+	}
+};
+
 var navigateTo = function(hashToGo){
     $Router.go(hashToGo);
 }
