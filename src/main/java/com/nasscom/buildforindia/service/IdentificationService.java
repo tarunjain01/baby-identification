@@ -110,7 +110,7 @@ public class IdentificationService {
 			closelyResembelingBabies.insert(babyData);
 		}
 		logger.debug("Executing retrieve call to get similar image data");
-		if (left != null && !left.isEmpty() && right != null && !right.isEmpty()) {
+		if ((left != null && !left.isEmpty()) && right != null && !right.isEmpty()) {
 			// read multipart data and convert it into bytes
 			// loop through all the files in uploaded folder and check similarity
 			// find babyData based on the filename which is a match
