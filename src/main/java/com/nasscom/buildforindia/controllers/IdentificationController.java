@@ -77,9 +77,30 @@ public class IdentificationController {
         return new ResponseEntity<BabyData>(babyData, HttpStatus.OK);
 	}
 	
-	@PutMapping("/api/update/data")
-	public ResponseEntity<?> updateImageAndInfo() {
-		return null;
+	@PostMapping("/api/update/data")
+	public ResponseEntity<?> updateImageAndInfo(@RequestParam(name = "leftPalm", required = false) MultipartFile leftMultipartFile,
+			@RequestParam(name = "rightPalm", required = false) MultipartFile rightMultipartFile, 
+			@RequestParam(required = false) String contactNumber,
+			@RequestParam String uuid) {
+		BabyData babyData = identificationService.findBabyByUuid(uuid);
+		
+		MultipartFile[] uploadedFiles = new MultipartFile[] {leftMultipartFile, rightMultipartFile};
+		
+		// Get file name
+        String uploadedFileName = Arrays.stream(uploadedFiles).map(x -> x.getOriginalFilename())
+                .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));
+
+        if (StringUtils.isEmpty(uploadedFileName)) {
+            return new ResponseEntity<String>("please select a file!", HttpStatus.OK);
+        }
+        
+        try {
+        	babyData = identificationService.updateData(babyData, leftMultipartFile, rightMultipartFile, contactNumber);
+		} catch (Exception e) {
+        	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        
+        return new ResponseEntity<BabyData>(babyData, HttpStatus.OK);
 	}
 	
 	@GetMapping("/api/find/{uuid}")

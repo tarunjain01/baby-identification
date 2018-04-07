@@ -176,4 +176,29 @@ public class IdentificationService {
 		return identificationRepository.findOneByUuid(uuid);
 	}
 
+	public BabyData updateData(BabyData babyData, MultipartFile leftMultipartFile, MultipartFile rightMultipartFile,
+			String contactNumber) throws IOException {
+		logger.debug("Executing update method - updating image files");
+		
+		byte[] leftPalmFingerprint = leftMultipartFile.getBytes();
+		byte[] rightPalmFingerprint = rightMultipartFile.getBytes();
+		FingerprintTemplate babyLeftFingerprintTemplate = new FingerprintTemplate().dpi(500).create(leftPalmFingerprint);
+		FingerprintTemplate babyRightFingerprintTemplate = new FingerprintTemplate().dpi(500).create(rightPalmFingerprint);
+				
+		// Saving of fingerprint images of babies to datafolder
+		Path leftPalmPath = Paths.get(UPLOADED_FOLDER + leftMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
+		Path rightPalmPath = Paths.get(UPLOADED_FOLDER + rightMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
+		Files.write(leftPalmPath, leftPalmFingerprint);
+		Files.write(rightPalmPath, rightPalmFingerprint);
+		
+		// Creation of babyData object and mapping
+		babyData.setLeftImageFile(leftMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
+		babyData.setRightImageFile(leftMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
+		babyData.setLeftTemplate(babyLeftFingerprintTemplate.serialize());
+		babyData.setRightTemplate(babyRightFingerprintTemplate.serialize());
+		babyData.setContactNumber(contactNumber);
+		//Persisting data
+		return identificationRepository.save(babyData);
+	}
+
 }
