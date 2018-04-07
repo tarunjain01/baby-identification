@@ -110,7 +110,7 @@ public class IdentificationService {
 			closelyResembelingBabies.insert(babyData);
 		}
 		logger.debug("Executing retrieve call to get similar image data");
-		if ((left != null && !left.isEmpty()) && right != null && !right.isEmpty()) {
+		if (!StringUtils.isEmpty(left) && !StringUtils.isEmpty(right)) {
 			// read multipart data and convert it into bytes
 			// loop through all the files in uploaded folder and check similarity
 			// find babyData based on the filename which is a match
@@ -126,16 +126,6 @@ public class IdentificationService {
 		    	    .create(babyFingerprintRight);
 			List<BabyData> babyList = identificationRepository.findByIsMissing(true);
 			babyList.parallelStream().forEach(baby -> {
-				/*FingerprintTemplate babytemplate = null;
-				Path fileLocation = Paths.get(baby.getLeftImageFile());
-				byte[] babyBinary = null;
-				try {
-					babyBinary = Files.readAllBytes(fileLocation);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				babytemplate = new FingerprintTemplate().dpi(500).create(babyBinary);*/
 				FingerprintTemplate babytemplateLeft = new FingerprintTemplate()
 					    .deserialize(baby.getLeftTemplate());
 				FingerprintTemplate babytemplateRight = new FingerprintTemplate()
