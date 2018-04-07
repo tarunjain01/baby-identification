@@ -186,6 +186,7 @@ var updateBabyData = function(){
             showLoaderScreen(false);
             $("#successfullMsg").removeClass("hidden");
             $("label").each(function(){
+            	$(this).removeClass("files-added");
                 $(this)[0].innerHTML = $(this).attr("default-content");
             });
             $("#updateBabyForm")[0].reset();
