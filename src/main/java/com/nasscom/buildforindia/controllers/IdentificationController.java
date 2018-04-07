@@ -39,10 +39,6 @@ public class IdentificationController {
 	@Autowired
 	private UIDAIVerificationService otpVerificationService;
 	
-	@PostMapping("/api/upload/checkSimilarity")
-	public BabyData[] getSimilarImageIfExist(@RequestParam MultipartFile footPrint) throws IOException {
-		return identificationService.retrieveSimilarImageData(footPrint);
-	}
 	
 	@PostMapping("/api/upload/files")
 	public ResponseEntity<?> addImageAndInfo(
@@ -81,8 +77,9 @@ public class IdentificationController {
 	}
 	
 	@PostMapping("/api/retrieve/match")
-	public BabyData[] retrieveMatch(@RequestParam("scanToMatch") MultipartFile uploadedFile ) throws IOException {
-		return identificationService.retrieveSimilarImageData(uploadedFile);
+	public BabyData[] retrieveMatch(@RequestParam("scanToMatchLeft") MultipartFile uploadedFileLeft,
+			@RequestParam("scanToMatchRight") MultipartFile uploadedFileRight) throws IOException {
+		return identificationService.retrieveSimilarImageData(uploadedFileLeft, uploadedFileRight);
 	}
 	
 	@PostMapping("/api/upload/missing")
@@ -105,10 +102,10 @@ public class IdentificationController {
 
 	@GetMapping("/api/otp/send")
 	public ResponseEntity<?> sentUidaiOtp(
-			@RequestParam String uid) {
+			@RequestParam String aadharId) {
 		 
 		try {
-			return new ResponseEntity<String>(this.otpVerificationService.sendOTPForUid(uid), HttpStatus.OK);
+			return new ResponseEntity<String>(this.otpVerificationService.sendOTPForUid(aadharId), HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<String>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
 		}

@@ -84,7 +84,7 @@ public class IdentificationService {
 		return babyList;
 	}
 
-	public BabyData[] retrieveSimilarImageData(MultipartFile footPrint) throws IOException {
+	public BabyData[] retrieveSimilarImageData(MultipartFile left, MultipartFile right) throws IOException {
 		BabyData identifiedBaby = null;
 		MinHeap  closelyResembelingBabies = new MinHeap(3);
 		for(int i=0; i<3; i++){
@@ -93,16 +93,20 @@ public class IdentificationService {
 			closelyResembelingBabies.insert(babyData);
 		}
 		logger.debug("Executing retrieve call to get similar image data");
-		if (footPrint != null && !footPrint.isEmpty()) {
+		if (left != null && !left.isEmpty() && right != null && !right.isEmpty()) {
 			// read multipart data and convert it into bytes
 			// loop through all the files in uploaded folder and check similarity
 			// find babyData based on the filename which is a match
 			// return that babyData object or else return null
-			byte[] babyFingerprint = footPrint.getBytes();
+			byte[] babyFingerprintLeft = left.getBytes();
+			byte[] babyFingerprintRight = right.getBytes();
 			//BabyData baby = new BabyData();
-			FingerprintTemplate babyFingerprintTemplate = new FingerprintTemplate()
+			FingerprintTemplate babyFingerprintTemplateLeft = new FingerprintTemplate()
 		    	    .dpi(500)
-		    	    .create(babyFingerprint);
+		    	    .create(babyFingerprintLeft);
+			FingerprintTemplate babyFingerprintTemplateRight = new FingerprintTemplate()
+		    	    .dpi(500)
+		    	    .create(babyFingerprintRight);
 			List<BabyData> babyList = identificationRepository.findByIsMissing(true);
 			babyList.forEach(baby -> {
 				/*FingerprintTemplate babytemplate = null;
@@ -115,12 +119,18 @@ public class IdentificationService {
 					e.printStackTrace();
 				}
 				babytemplate = new FingerprintTemplate().dpi(500).create(babyBinary);*/
-				FingerprintTemplate babytemplate = new FingerprintTemplate()
+				FingerprintTemplate babytemplateLeft = new FingerprintTemplate()
 					    .deserialize(baby.getLeftTemplate());
-				double score = new FingerprintMatcher()
-		    		    .index(babytemplate)
-		    		    .match(babyFingerprintTemplate);
-				baby.setScore(score);
+				FingerprintTemplate babytemplateRight = new FingerprintTemplate()
+					    .deserialize(baby.getRightTemplate());
+				double scoreLeft = new FingerprintMatcher()
+		    		    .index(babytemplateLeft)
+		    		    .match(babyFingerprintTemplateLeft);
+				double scoreRight = new FingerprintMatcher()
+		    		    .index(babytemplateRight)
+		    		    .match(babyFingerprintTemplateRight);
+				double scoreAverage = (scoreLeft + scoreRight)/2;
+				baby.setScore(scoreAverage);
 				
 					BabyData heapFrontBaby = closelyResembelingBabies.getHeap()[closelyResembelingBabies.getFront()];
 					if(heapFrontBaby.getScore() < baby.getScore()){

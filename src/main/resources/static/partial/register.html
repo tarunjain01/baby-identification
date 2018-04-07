@@ -8,11 +8,19 @@
 			X
 		</div>
 	</div>
+	<div class="errorMsg msg-system delayed-fadein hidden" id="successfullMsg">
+		<div class="content">
+			
+		</div>
+		<div class="closeIt">
+			X
+		</div>
+	</div>
 </div>
 <div>
 	<form id="newRegistryForm" class="form padded delayed-fadein" style="margin:auto;">
-		<input type="text" name="motherAadhar" placeholder="Mother's Aadhar" need-otp>
-	    <input type="text" name="fatherAadhar" placeholder="Father's Aadhar">
+		<input type="text" name="motherAadhar" placeholder="Mother's Aadhar" need-otp maxlength="12">
+	    <input type="text" name="fatherAadhar" placeholder="Father's Aadhar" need-otp maxlength="12">
 	    <input type="text" name="birthPlace" placeholder="Birthplace">
 	    <input type="file" name="leftPalm" id="fileLeftPalm" accept="image/jpeg">
 		<label for="fileLeftPalm" default-content="Chose Scanned Image of Left Palm">Chose Scanned Image of Left Palm</label>

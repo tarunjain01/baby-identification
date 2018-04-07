@@ -41,6 +41,36 @@ $Router.config([
             $(this).parent().addClass('hidden');
         });
         $("input[need-otp]").on('blur',function(){
+        	if($(this).val().length > 0 && ($(this).val().length > 12 || $(this).val().length < 12)){
+        		$(this).addClass("error");
+        		$(".message-holder .errorMsg .content").text("The Aadhar should be exactly 12 digit long");
+        		$(".message-holder .errorMsg").removeClass("hidden");
+        	} else if($(this).val().length > 0 && !$(this).val().match(/^[0-9]+$/)){
+        		$(this).addClass("error");
+        		$(".message-holder .errorMsg .content").text("The Aadhar can only be numbers");
+        		$(".message-holder .errorMsg").removeClass("hidden");
+        	} else {
+        		$(this).removeClass("error");
+        		$(".message-holder .errorMsg").addClass("hidden");
+        		if($(this).val().length > 0){
+        			$.ajax({
+            	        url: '/BabyIdentification/api/otp/send',
+            	        data: {"aadharId": $(this).val()},
+            	        beforeSend: function(){showLoaderScreen(true)},
+            	        type: 'GET',
+            	        success: function(data){
+            	            showLoaderScreen(false);
+            	            /*$('#nb_aadharId')[0].innerHTML = data.uuid;
+            	            $("#successfullMsg").removeClass("hidden");
+            	            $("label").each(function(){
+            	                $(this)[0].innerHTML = $(this).attr("default-content");
+            	            });
+            	            $("#newRegistryForm")[0].reset();*/
+            	            console.log(data);
+            	        }
+            	    });
+        		}
+        	}
             //console.log($(this),$(this).position().left,$(this).position().top,$(this).height());
         });
         $('input[type="file"]').on('change', function(e){

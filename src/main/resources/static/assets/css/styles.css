@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
 *{
     margin:0; padding: 0;
     box-sizing: border-box;
-    font-family: calibri;
+    font-family: 'Montserrat', sans-serif;
 }
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -98,6 +100,10 @@ html,body{
     width: 400px;
     outline: none;
     border: none;
+}
+
+.form input.error{
+	border-bottom: 2px solid #c44 !important;
 }
 
 .form input[type="text"],.form input[type="password"]{
@@ -259,6 +265,15 @@ html,body{
 
 .msg-system.successfullMsg{
 	background: #4becc3;
+}
+
+.msg-system.errorMsg{
+	background: #c44;
+	color: #eee;
+}
+
+.msg-system.errorMsg .closeIt{
+	color:#fff;
 }
 
 [router-outlet]>div.result{
