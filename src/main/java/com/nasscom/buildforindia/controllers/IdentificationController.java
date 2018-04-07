@@ -55,7 +55,7 @@ public class IdentificationController {
 			@RequestParam(required = false) String addressLine2,
 			@RequestParam String city,
 			@RequestParam String state,
-			@RequestParam String contactNumberber,
+			@RequestParam String contactNumber,
 			@RequestParam("leftPalm") MultipartFile leftPalmScan,
 			@RequestParam("rightPalm") MultipartFile rightPalmScan) {
 		
@@ -70,7 +70,7 @@ public class IdentificationController {
         }
         BabyData babyData = null;
         try {
-        	babyData = identificationService.saveData(motherAadhar, fatherAadhar, birthDate, babyGender, addressLine1, addressLine2, city, state, leftPalmScan, rightPalmScan);
+        	babyData = identificationService.saveData(motherAadhar, fatherAadhar, birthDate, contactNumber, babyGender, addressLine1, addressLine2, city, state, leftPalmScan, rightPalmScan);
 		
         } catch (Exception e) {
         	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

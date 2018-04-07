@@ -49,7 +49,7 @@ public class IdentificationService {
 		this.UPLOADED_FOLDER = uploadedFolder;
 	}
 	
-	public BabyData saveData(String motherAadhar, String fatherAadhar, String birthDate, String babyGender, String addressLine1, String addressLine2, String city, String state, MultipartFile leftPalmScan, MultipartFile rightPalmScan) throws IOException, SerialException, SQLException, ParseException {
+	public BabyData saveData(String motherAadhar, String fatherAadhar, String birthDate, String contactNumber, String babyGender, String addressLine1, String addressLine2, String city, String state, MultipartFile leftPalmScan, MultipartFile rightPalmScan) throws IOException, SerialException, SQLException, ParseException {
 		logger.debug("Executing save method - saving image files");
 		BabyData babyData = new BabyData();
 		byte[] leftPalmFingerprint = leftPalmScan.getBytes();
@@ -81,6 +81,7 @@ public class IdentificationService {
 		babyData.setMotherAadhar(motherAadhar);
 		babyData.setFatherAadhar(fatherAadhar);
 		babyData.setBirthDate(new SimpleDateFormat("dd/mm/yyyy").parse(birthDate));
+		babyData.setContactNumber(contactNumber);
 		babyData.setGender(babyGender);
 		
 		Address address = new Address();
