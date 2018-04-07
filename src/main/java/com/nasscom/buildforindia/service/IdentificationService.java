@@ -92,7 +92,7 @@ public class IdentificationService {
 		//Persisting data
 		return identificationRepository.save(babyData);
 	}
-
+	
 	public List<BabyData> retrieveAll() {
 		List<BabyData> babyList = new ArrayList<>();
 		Iterable<BabyData> iterable = identificationRepository.findAll();
@@ -170,6 +170,10 @@ public class IdentificationService {
 		identificationRepository.save(missingBabyData);
 		
 		return true;
+	}
+
+	public BabyData findBabyByUuid(String uuid) {
+		return identificationRepository.findOneByUuid(uuid);
 	}
 
 }
