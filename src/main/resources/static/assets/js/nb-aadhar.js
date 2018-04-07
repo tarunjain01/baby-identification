@@ -214,14 +214,15 @@ var submitMissingCase = function(){
 function formulateResultTable(data){
     var tbody = $("#missingKidsTable").find('tbody');
     for(var i =0 , j=1; i<data.length; i++){
-        if(data[i] != null && data[i].uuid != null && data[i].score !=null){
+        if(data[i] != null && data[i].uuid != null && data[i].score !=null && data[i].score > 40){
             var row = $('<tr></tr>'),
             serialNo = $('<td></td>').text(j),
             uuid = $('<td></td>').text(data[i].uuid),
-            matchPercentage = $('<td></td>').text(Math.round(data[i].score)+"%"),
+            contactNumber = $('<td></td>').text(data[i].contactNumber),
+            matchPercentage = $('<td></td>').text(Math.round(data[i].score)),
             actionButton = $("<button class='action-btn'></button>").text("Contact Parents"),
             actionCall = $('<td></td>').append(actionButton);
-            row.prepend(serialNo, uuid, matchPercentage, actionCall);
+            row.prepend(serialNo, uuid, matchPercentage, contactNumber);
             tbody.append(row);
             j++;
         }
