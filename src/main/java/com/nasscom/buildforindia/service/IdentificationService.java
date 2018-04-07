@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.machinezoo.sourceafis.FingerprintMatcher;
@@ -180,7 +181,7 @@ public class IdentificationService {
 			String contactNumber) throws IOException {
 		logger.debug("Executing update method - updating image files");
 		
-		if (leftMultipartFile != null) {
+		if (leftMultipartFile != null && !StringUtils.isEmpty(leftMultipartFile.getOriginalFilename())) {
 			byte[] leftPalmFingerprint = leftMultipartFile.getBytes();
 			FingerprintTemplate babyLeftFingerprintTemplate = new FingerprintTemplate().dpi(500).create(leftPalmFingerprint);
 			Path leftPalmPath = Paths.get(UPLOADED_FOLDER + leftMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
@@ -189,7 +190,7 @@ public class IdentificationService {
 			babyData.setLeftTemplate(babyLeftFingerprintTemplate.serialize());
 		}
 		
-		if (rightMultipartFile != null) {
+		if (rightMultipartFile != null && !StringUtils.isEmpty(rightMultipartFile.getOriginalFilename())) {
 			byte[] rightPalmFingerprint = rightMultipartFile.getBytes();
 			FingerprintTemplate babyRightFingerprintTemplate = new FingerprintTemplate().dpi(500).create(rightPalmFingerprint);
 			Path rightPalmPath = Paths.get(UPLOADED_FOLDER + rightMultipartFile.getOriginalFilename()+"-"+babyData.getUuid());
@@ -201,6 +202,10 @@ public class IdentificationService {
 		babyData.setContactNumber(contactNumber);
 		//Persisting data
 		return identificationRepository.save(babyData);
+	}
+
+	public void deleteAll() {
+		identificationRepository.deleteAll();		
 	}
 
 }
