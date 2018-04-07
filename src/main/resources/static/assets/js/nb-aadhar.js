@@ -173,6 +173,26 @@ var submitNewRegistry = function(){
     });
 }
 
+var updateBabyData = function(){
+	var fd = new FormData($("#updateBabyForm")[0]);
+    $.ajax({
+        url: '/BabyIdentification/api/update/data',
+        data: fd,
+        beforeSend: function(){showLoaderScreen(true)},
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        success: function(data){
+            showLoaderScreen(false);
+            $("#successfullMsg").removeClass("hidden");
+            $("label").each(function(){
+                $(this)[0].innerHTML = $(this).attr("default-content");
+            });
+            $("#updateBabyForm")[0].reset();
+        }
+    });
+}
+
 var submitMissingCase = function(){
     var fd = new FormData($("#missingReportForm")[0]);
     $.ajax({

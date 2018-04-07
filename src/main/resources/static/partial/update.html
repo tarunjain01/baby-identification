@@ -1,16 +1,7 @@
 <div class="message-holder">
 	<div class="successfullMsg msg-system delayed-fadein hidden" id="successfullMsg">
 		<div class="content">
-			<p>Details were successfully registered with the system.</p>
-			<p>NBAadhar ID : <span id="nb_aadharId">{aadharId}</span></p>
-		</div>
-		<div class="closeIt">
-			X
-		</div>
-	</div>
-	<div class="errorMsg msg-system delayed-fadein hidden" id="successfullMsg">
-		<div class="content">
-			
+			<p>Details were successfully Updated</p>
 		</div>
 		<div class="closeIt">
 			X
@@ -18,7 +9,7 @@
 	</div>
 </div>
 <div>
-	<form id="updateForm" class="form padded delayed-fadein" style="margin:auto;">
+	<form id="updateBabyForm" class="form padded delayed-fadein" style="margin:auto;">
 	<div>
 	<input type="text" name="uuid" placeholder="UUID of Child" autocomplete="off" to-fetch>
 	<input type="button" class="warning" name="fetchButton" value="Fetch Details" onclick="fetchBabyByUUID()">
@@ -38,6 +29,6 @@
 			    <label for="fileRightPalm" default-content="Chose Scanned Image of Right Palm">Chose Scanned Image of Right Palm</label>
 			</div>
 		</div>
-	    <input type="button" class="success" value="Submit" onclick="submitNewRegistry()" style="margin-top:10px;">
+	    <input type="button" class="success" value="Submit" onclick="updateBabyData()" style="margin-top:10px;">
 	</form>
 </div>
