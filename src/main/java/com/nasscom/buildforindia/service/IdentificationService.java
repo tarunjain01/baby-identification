@@ -60,10 +60,10 @@ public class IdentificationService {
 		synchronized(this) {
 			boolean isUnique = false;
 			while (!isUnique) {
-				String uuid = java.util.UUID.randomUUID().toString();
-				BabyData nonUniqueBaby = identificationRepository.findOneByUuid(uuid);
+				String uniqueNumber = String.valueOf(System.currentTimeMillis() % 1000000000);
+				BabyData nonUniqueBaby = identificationRepository.findOneByUuid(String.valueOf(uniqueNumber));
 				isUnique = nonUniqueBaby == null ? true : false;
-				babyData.setUuid(uuid);
+				babyData.setUuid(uniqueNumber);
 			}
 		}
 		
