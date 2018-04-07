@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.machinezoo.sourceafis.FingerprintMatcher;
 import com.machinezoo.sourceafis.FingerprintTemplate;
+import com.nasscom.buildforindia.model.Address;
 import com.nasscom.buildforindia.model.BabyData;
 import com.nasscom.buildforindia.repositories.IdentificationRepository;
 
@@ -46,13 +47,14 @@ public class IdentificationService {
 		this.UPLOADED_FOLDER = uploadedFolder;
 	}
 	
-	public BabyData saveData(String motherAadhar, String fatherAadhar, String birthPlace, MultipartFile leftPalmScan, MultipartFile rightPalmScan) throws IOException, SerialException, SQLException {
+	public BabyData saveData(String motherAadhar, String fatherAadhar, String birthPlace, String addressLine1, String addressLine2, String city, String state, MultipartFile leftPalmScan, MultipartFile rightPalmScan) throws IOException, SerialException, SQLException {
 		logger.debug("Executing save method - saving image files");
 		BabyData babyData = new BabyData();
 		byte[] leftPalmFingerprint = leftPalmScan.getBytes();
 		byte[] rightPalmFingerprint = rightPalmScan.getBytes();
 		FingerprintTemplate babyLeftFingerprintTemplate = new FingerprintTemplate().dpi(500).create(leftPalmFingerprint);
 		FingerprintTemplate babyRightFingerprintTemplate = new FingerprintTemplate().dpi(500).create(rightPalmFingerprint);
+		// Generation of UUID
 		synchronized(this) {
 			boolean isUnique = false;
 			while (!isUnique) {
@@ -62,18 +64,30 @@ public class IdentificationService {
 				babyData.setUuid(uuid);
 			}
 		}
+		
+		// Saving of fingerprint images of babies to datafolder
 		Path leftPalmPath = Paths.get(UPLOADED_FOLDER + leftPalmScan.getOriginalFilename()+"-"+babyData.getUuid());
 		Path rightPalmPath = Paths.get(UPLOADED_FOLDER + rightPalmScan.getOriginalFilename()+"-"+babyData.getUuid());
 		Files.write(leftPalmPath, leftPalmFingerprint);
 		Files.write(rightPalmPath, rightPalmFingerprint);
+		
+		// Creation of babyData object and mapping
 		babyData.setLeftImageFile(leftPalmScan.getOriginalFilename()+"-"+babyData.getUuid());
 		babyData.setRightImageFile(rightPalmScan.getOriginalFilename()+"-"+babyData.getUuid());
 		babyData.setLeftTemplate(babyLeftFingerprintTemplate.serialize());
 		babyData.setRightTemplate(babyRightFingerprintTemplate.serialize());
 		babyData.setMotherAadhar(motherAadhar);
 		babyData.setFatherAadhar(fatherAadhar);
-		babyData.setBirthPlace(birthPlace);
 		
+		Address address = new Address();
+		address.setBirthPlace(birthPlace);
+		address.setAddressLine1(addressLine1);
+		address.setAddressLine2(addressLine2);
+		address.setCity(city);
+		address.setState(state);
+		babyData.setAddress(address);
+		
+		//Persisting data
 		return identificationRepository.save(babyData);
 	}
 
@@ -85,7 +99,6 @@ public class IdentificationService {
 	}
 
 	public BabyData[] retrieveSimilarImageData(MultipartFile left, MultipartFile right) throws IOException {
-		BabyData identifiedBaby = null;
 		MinHeap  closelyResembelingBabies = new MinHeap(3);
 		for(int i=0; i<3; i++){
 			BabyData babyData = new BabyData();
@@ -108,7 +121,7 @@ public class IdentificationService {
 		    	    .dpi(500)
 		    	    .create(babyFingerprintRight);
 			List<BabyData> babyList = identificationRepository.findByIsMissing(true);
-			babyList.forEach(baby -> {
+			babyList.parallelStream().forEach(baby -> {
 				/*FingerprintTemplate babytemplate = null;
 				Path fileLocation = Paths.get(baby.getLeftImageFile());
 				byte[] babyBinary = null;
@@ -131,13 +144,16 @@ public class IdentificationService {
 		    		    .match(babyFingerprintTemplateRight);
 				double scoreAverage = (scoreLeft + scoreRight)/2;
 				baby.setScore(scoreAverage);
-				
+					
+				synchronized (closelyResembelingBabies) {
 					BabyData heapFrontBaby = closelyResembelingBabies.getHeap()[closelyResembelingBabies.getFront()];
 					if(heapFrontBaby.getScore() < baby.getScore()){
 						closelyResembelingBabies.remove();
 						closelyResembelingBabies.insert(baby);
 						closelyResembelingBabies.minHeap();
 					}
+				}
+					
 				
 					
 				
