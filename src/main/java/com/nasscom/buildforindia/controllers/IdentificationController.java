@@ -16,10 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nasscom.buildforindia.model.Address;
 import com.nasscom.buildforindia.model.BabyData;
 import com.nasscom.buildforindia.service.IdentificationService;
 import com.nasscom.buildforindia.service.UIDAIVerificationService;
@@ -39,17 +42,10 @@ public class IdentificationController {
 	@Autowired
 	private UIDAIVerificationService otpVerificationService;
 	
-	
-	@PostMapping("/api/upload/files")
-	public ResponseEntity<?> addImageAndInfo(
-			@RequestParam String motherAadhar, 
-			@RequestParam String fatherAadhar,
-			@RequestParam String birthPlace,
-			@RequestParam("leftPalm") MultipartFile leftPalmScan,
-			@RequestParam("rightPalm") MultipartFile rightPalmScan,
-			@RequestParam(value="babyPic", required=false) MultipartFile babyPic) {
-		
-		MultipartFile[] uploadedFiles = new MultipartFile[] {leftPalmScan, rightPalmScan};
+	@PostMapping("/api/upload/new/files")
+	public ResponseEntity<?> addImageAndInfo(@RequestBody BabyData babyData) {
+		System.out.println("Hello");
+		/*MultipartFile[] uploadedFiles = new MultipartFile[] {leftPalmScan, rightPalmScan};
 		if (babyPic!=null) {
 			uploadedFiles[2] = babyPic;
 		}
@@ -62,7 +58,39 @@ public class IdentificationController {
         }
         BabyData babyData = new BabyData();
         try {
-        	babyData = identificationService.saveData(motherAadhar, fatherAadhar, birthPlace, leftPalmScan, rightPalmScan);
+        	babyData = identificationService.saveData(motherAadhar, fatherAadhar, address, leftPalmScan, rightPalmScan);
+		
+        } catch (Exception e) {
+        	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }*/
+        
+        return new ResponseEntity<BabyData>(babyData, HttpStatus.OK);
+	}
+	
+	@PostMapping("/api/upload/files")
+	public ResponseEntity<?> addImageAndInfo(
+			@RequestParam String motherAadhar, 
+			@RequestParam String fatherAadhar,
+			@RequestParam String birthPlace,
+			@RequestParam String addressLine1,
+			@RequestParam String addressLine2,
+			@RequestParam String city,
+			@RequestParam String state,
+			@RequestParam("leftPalm") MultipartFile leftPalmScan,
+			@RequestParam("rightPalm") MultipartFile rightPalmScan) {
+		
+		MultipartFile[] uploadedFiles = new MultipartFile[] {leftPalmScan, rightPalmScan};
+		
+		// Get file name
+        String uploadedFileName = Arrays.stream(uploadedFiles).map(x -> x.getOriginalFilename())
+                .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));
+
+        if (StringUtils.isEmpty(uploadedFileName)) {
+            return new ResponseEntity<String>("please select a file!", HttpStatus.OK);
+        }
+        BabyData babyData = null;
+        try {
+        	babyData = identificationService.saveData(motherAadhar, fatherAadhar, birthPlace, addressLine1, addressLine2, city, state, leftPalmScan, rightPalmScan);
 		
         } catch (Exception e) {
         	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -3,9 +3,12 @@
  */
 package com.nasscom.buildforindia.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OneToOne;
 
 /**
  * @author tarun_000
@@ -19,15 +22,26 @@ public class BabyData implements Comparable<BabyData>{
 	
 	private String uuid;
 	
+	private String contactNumber;
+	
 	private String leftImageFile;
 	
 	private String rightImageFile;
+	
+	private String babyRecentImage;
+	
+	@OneToOne
+	private Address address;
 	
 	private String motherAadhar;
 	
 	private String fatherAadhar;
 	
-	private String birthPlace;
+	private Date birthDate;
+	
+	private Date missingDate;
+	
+	private Date reportingDate;
 	
 	private boolean isMissing;
 	
@@ -103,14 +117,6 @@ public class BabyData implements Comparable<BabyData>{
 		this.fatherAadhar = fatherAadhar;
 	}
 
-	public String getBirthPlace() {
-		return birthPlace;
-	}
-
-	public void setBirthPlace(String birthPlace) {
-		this.birthPlace = birthPlace;
-	}
-
 	public boolean isMissing() {
 		return isMissing;
 	}
@@ -127,7 +133,53 @@ public class BabyData implements Comparable<BabyData>{
 		this.uuid = uuid;
 	}
 
-	
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	public String getBabyRecentImage() {
+		return babyRecentImage;
+	}
+
+	public void setBabyRecentImage(String babyRecentImage) {
+		this.babyRecentImage = babyRecentImage;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public Date getMissingDate() {
+		return missingDate;
+	}
+
+	public void setMissingDate(Date missingDate) {
+		this.missingDate = missingDate;
+	}
+
+	public Date getReportingDate() {
+		return reportingDate;
+	}
+
+	public void setReportingDate(Date reportingDate) {
+		this.reportingDate = reportingDate;
+	}
 
 	@Override
 	public int compareTo(BabyData o) {
