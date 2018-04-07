@@ -32,6 +32,7 @@ $Router.config([
     {path:'register',templateUrl:'partial/register.html'},
     {path:'reportMissing',templateUrl:'partial/reportMissing.html'},
     {path:'track',templateUrl:'partial/track.html'},
+    {path:'update',templateUrl:'partial/update.html'},
     {otherwise:'register'}
 ],{
     defaultLinkClass:"card",
