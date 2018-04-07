@@ -1,0 +1,11 @@
+{
+    "namespace": "com.nasscom.buildforindia.model",
+    "type": "record",
+    "name": "BabyDataScans",
+    "fields": [
+        {"name": "id", "type": "string"},
+        {"name": "uuid", "type": "string"},
+        {"name": "leftImage", "type": "bytes" },
+        {"name": "rightImage","type": "bytes" }
+    ]
+}
