@@ -25,6 +25,8 @@ public class BabyData implements Comparable<BabyData>{
 	
 	private String contactNumber;
 	
+	private String gender;
+	
 	private String leftImageFile;
 	
 	private String rightImageFile;
@@ -180,6 +182,14 @@ public class BabyData implements Comparable<BabyData>{
 
 	public void setReportingDate(Date reportingDate) {
 		this.reportingDate = reportingDate;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
 	@Override

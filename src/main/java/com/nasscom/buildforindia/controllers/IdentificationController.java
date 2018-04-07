@@ -15,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,36 +44,12 @@ public class IdentificationController {
 	@Autowired
 	private UIDAIVerificationService otpVerificationService;
 	
-	@PostMapping("/api/upload/new/files")
-	public ResponseEntity<?> addImageAndInfo(@RequestBody BabyData babyData) {
-		System.out.println("Hello");
-		/*MultipartFile[] uploadedFiles = new MultipartFile[] {leftPalmScan, rightPalmScan};
-		if (babyPic!=null) {
-			uploadedFiles[2] = babyPic;
-		}
-		// Get file name
-        String uploadedFileName = Arrays.stream(uploadedFiles).map(x -> x.getOriginalFilename())
-                .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));
-
-        if (StringUtils.isEmpty(uploadedFileName)) {
-            return new ResponseEntity<String>("please select a file!", HttpStatus.OK);
-        }
-        BabyData babyData = new BabyData();
-        try {
-        	babyData = identificationService.saveData(motherAadhar, fatherAadhar, address, leftPalmScan, rightPalmScan);
-		
-        } catch (Exception e) {
-        	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }*/
-        
-        return new ResponseEntity<BabyData>(babyData, HttpStatus.OK);
-	}
-	
 	@PostMapping("/api/upload/files")
 	public ResponseEntity<?> addImageAndInfo(
 			@RequestParam String motherAadhar, 
 			@RequestParam String fatherAadhar,
 			@RequestParam String birthDate,
+			@RequestParam String babyGender,
 			@RequestParam String addressLine1,
 			@RequestParam(required = false) String addressLine2,
 			@RequestParam String city,
@@ -90,13 +68,23 @@ public class IdentificationController {
         }
         BabyData babyData = null;
         try {
-        	babyData = identificationService.saveData(motherAadhar, fatherAadhar, birthDate, addressLine1, addressLine2, city, state, leftPalmScan, rightPalmScan);
+        	babyData = identificationService.saveData(motherAadhar, fatherAadhar, birthDate, babyGender, addressLine1, addressLine2, city, state, leftPalmScan, rightPalmScan);
 		
         } catch (Exception e) {
         	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
         return new ResponseEntity<BabyData>(babyData, HttpStatus.OK);
+	}
+	
+	@PutMapping("/api/update/data")
+	public ResponseEntity<?> updateImageAndInfo() {
+		return null;
+	}
+	
+	@GetMapping("/api/find/{uuid}")
+	public BabyData findBabyByUuid(@PathVariable String uuid) {
+		return identificationService.findBabyByUuid(uuid);
 	}
 	
 	@GetMapping("/api/retrieve/list")
