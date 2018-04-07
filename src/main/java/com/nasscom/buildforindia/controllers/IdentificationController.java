@@ -116,9 +116,9 @@ public class IdentificationController {
 	public ResponseEntity<?> reportMissing(
 			@RequestParam String motherAadhar, 
 			@RequestParam String fatherAadhar,
-			@RequestParam String babyId) {
+			@RequestParam String uuid) {
 	
-		identificationService.reportMissing(babyId);
+		identificationService.reportMissing(uuid);
 		 return new ResponseEntity<String>("Successfully Uploaded", HttpStatus.OK);
 	}
 	

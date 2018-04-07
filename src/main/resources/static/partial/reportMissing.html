@@ -10,7 +10,11 @@
 	</div>
 <div>
 	<form id="missingReportForm" class="form padded delayed-fadein" style="margin:auto;">
-	    <input type="text" name="babyId" placeholder="NB Aadhar ID">
+	    <!--  <input type="text" name="babyId" placeholder="NB Aadhar ID">-->
+	    <div>
+	<input type="text" name="uuid" placeholder="UUID of Child" autocomplete="off" to-fetch>
+	<input type="button" class="warning" name="fetchButton" value="Fetch Details" onclick="fetchBabyByUUID()">
+	</div>
 	    <input type="text" name="motherAadhar" placeholder="Mother's Aadhar" need-otp="mother">
 	    <input type="text" name="fatherAadhar" placeholder="Father's Aadhar" need-otp="father">
 	    <input type="button" class="error" value="Report Missing" onclick="submitMissingCase()">
