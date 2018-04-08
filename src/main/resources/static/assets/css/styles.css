@@ -211,10 +211,17 @@ html,body{
     animation: fadein 500ms linear forwards;
 }
 
+.intro-screen{
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
 .navbar{
     background: #3a1c14;
     color: #fff;
     font-size: 25px;
+    flex:none;
 }
 
 .navbar .brand{
@@ -243,6 +250,7 @@ html,body{
 
 [router-outlet]{
     padding: 50px 15px;
+    flex: 1 100%;
 }
 
 [router-outlet]>div{
@@ -251,6 +259,7 @@ html,body{
 
 .btn_holder{
     background: #fff;
+    flex: none;
 }
 
 .card{
@@ -347,8 +356,7 @@ html,body{
 }
 
 .footer{
-    position: absolute;
-    bottom: 0;
+    flex: none;
     width: 100%;
     padding: 10px;
     background: #756f58;
